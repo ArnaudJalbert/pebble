@@ -1,0 +1,9 @@
+services:
+  pebble:
+    build: .
+    container_name: pebble
+    command: uvicorn api.main:app --host 0.0.0.0 --port 80 --reload --log-level debug
+    ports:
+      - 8080:80
+    volumes:
+      - .:/api
