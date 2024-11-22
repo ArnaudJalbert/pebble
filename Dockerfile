@@ -1,6 +1,9 @@
 FROM python:3.10-slim
 LABEL authors="arnaudjalbert"
 
-WORKDIR /api
-COPY requirements.txt /api
+WORKDIR /pebble
+COPY requirements.txt /pebble
 RUN pip install -r requirements.txt
+COPY . /pebble
+
+ENV PYTHONPATH=/pebble/app
