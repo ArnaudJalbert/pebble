@@ -1,6 +1,7 @@
+from __future__ import annotations
 from typing import Optional, Union
 
-from pebble.domain.entities.weekdays import WeekDays
+from pebble.domain.value_objects import WeekDays
 
 
 class Recurrence:
@@ -72,6 +73,27 @@ class Recurrence:
         # Ensure that the days_of_week is a subset of all the days of the week.
         assert days_of_week.issubset(WeekDays.get_all())
         self._days_of_week = days_of_week
+
+    def __eq__(self, other: Recurrence) -> bool:
+        """
+        Checks if the current recurrence is equal to another recurrence.
+
+        Equality is based on the name, the recurrence amount, and days of the week of the recurrence.
+        Args:
+            other: The other recurrence to compare with.
+
+        Returns:
+            True if the current recurrence is equal to the other recurrence, False otherwise.
+        """
+
+        return (
+            isinstance(other, Recurrence)
+            and self.name == other.name
+            and self.weekly_recurrence == other.weekly_recurrence
+            and self.monthly_recurrence == other.monthly_recurrence
+            and self.yearly_recurrence == other.yearly_recurrence
+            and self.days_of_week == other.days_of_week
+        )
 
 
 class Daily(Recurrence):

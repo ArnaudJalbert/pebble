@@ -14,4 +14,3 @@ def test_import_entities() -> None:
     assert BiMonthly
     assert Yearly
     assert Quarterly
-    assert WeekDays
