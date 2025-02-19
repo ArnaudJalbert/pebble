@@ -1,0 +1,7 @@
+[project]
+name = "pebble"
+version = "0.1.0"
+description = "Minimalist habit tracker built using Clean Architecture."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
