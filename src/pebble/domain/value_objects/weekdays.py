@@ -15,3 +15,7 @@ class WeekDays(Enum):
     @classmethod
     def get_all(cls) -> set[WeekDays]:
         return {day for day in cls}
+
+    @classmethod
+    def valid_weekday(cls, day: str) -> bool:
+        return cls(day) in cls.get_all()

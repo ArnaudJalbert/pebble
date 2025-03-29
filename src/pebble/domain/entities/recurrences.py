@@ -1,10 +1,12 @@
 from __future__ import annotations
+
+from abc import ABC
 from typing import Optional, Union
 
 from pebble.domain.value_objects import WeekDays
 
 
-class Recurrence:
+class Recurrence(ABC):
     """
     Recurrence entity that represents the recurrence of a habit.
 
@@ -134,18 +136,18 @@ class Weekly(Recurrence):
     name = "Weekly"
     weekly_recurrence = 1
 
-    def __init__(self, day_of_week: Optional[set[WeekDays]] = None) -> None:
+    def __init__(self, days_of_week: Optional[set[WeekDays]] = None) -> None:
         """
         Initializes the weekly recurrence entity with the day(s) of the week the habit should recur.
         Checks that the number of days of the week is equal to the weekly recurrence.
 
         Args:
-            day_of_week: The day(s) of the week the habit should recur.
+            days_of_week: The day(s) of the week the habit should recur.
         """
-        assert len(day_of_week) == self.weekly_recurrence if day_of_week else True
+        assert len(days_of_week) == self.weekly_recurrence if days_of_week else True
         assert self.monthly_recurrence is None
         assert self.yearly_recurrence is None
-        super().__init__(day_of_week)
+        super().__init__(days_of_week)
 
     @property
     def days_of_week(self) -> set[WeekDays]:
@@ -190,7 +192,7 @@ class Monthly(Recurrence):
     monthly_recurrence = 1
     yearly_recurrence = 12
 
-    def __init__(self, days_of_week: Optional[set[WeekDays]]) -> None:
+    def __init__(self, days_of_week: Optional[set[WeekDays]] = None) -> None:
         assert len(days_of_week) == 1 if days_of_week else True
         super().__init__(days_of_week)
 

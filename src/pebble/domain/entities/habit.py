@@ -1,20 +1,26 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
+from typing import Optional
 
 from pebble.domain.entities import Recurrence, HabitCategory
 from pebble.domain.value_objects import Color
+from pebble.domain.value_objects.types import Name, Description, ID
+
+
 
 
 @dataclass
 class Habit:
-    name: str
-    description: str
+    name: Name
     recurrence: Recurrence
-    category: HabitCategory = None
-    color: Color = None
-    id: int = None
+    description: Optional[Description] = None
+    category: Optional[HabitCategory] = None
+    color: Optional[Color] = None
+    id: Optional[ID] = None
 
-    def __eq__(self, other):
-        if all(i is not None for i in (self.id, other.id)):
+    def __eq__(self, other: Habit):
+        if other.id is not None and self.id is not None:
             return self.id == other.id
         return (
             self.name == other.name

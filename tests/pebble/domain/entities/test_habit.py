@@ -44,7 +44,7 @@ def test_create_daily_habit_with_category():
 
 
 def test_create_daily_habit_with_category_and_color():
-    color = Color(hex="#FFFFFF", name="white")
+    color = Color(hex="#FFFFFF")
     habit = Habit(
         name="Test Habit",
         description="Test description",
@@ -72,11 +72,11 @@ def test_create_weekly_habit():
     habit = Habit(
         name="Test Habit",
         description="Test description",
-        recurrence=Weekly(day_of_week={WeekDays.TUESDAY}),
+        recurrence=Weekly(days_of_week={WeekDays.TUESDAY}),
     )
     assert habit.name == "Test Habit"
     assert habit.description == "Test description"
-    assert habit.recurrence == Weekly(day_of_week={WeekDays.TUESDAY})
+    assert habit.recurrence == Weekly(days_of_week={WeekDays.TUESDAY})
     assert habit.category is None
     assert habit.color is None
     assert habit.id is None
