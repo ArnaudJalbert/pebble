@@ -23,10 +23,15 @@ class CreateHabitDTO:
 class CreateHabit:
     """
     Use case to create a new habit entity.
+
     The use case will create a new habit entity based on the data provided in the DTO.
-    It is responsible for creating a new habit entity, creating a new habit category if it does not exist,
+
+    It is responsible for creating a new habit entity,
+    creating a new habit category if it does not exist,
     and creating a new recurrence object based on the data provided in the DTO.
-    The use case will save the habit entity to the habit repository and return the habit entity with a unique identifier.
+
+    The use case will save the habit entity to the habit repository and
+    return the habit entity with a unique identifier.
 
     Attributes:
         habit_repository: The repository used to save the habit
@@ -42,7 +47,6 @@ class CreateHabit:
         self.habit_repository: HabitRepository = habit_repository
 
     def execute(self, dto: CreateHabitDTO) -> Habit:
-
         # create a recurrence object, there must be a recurrence provided
         recurrence: Recurrence = self._create_recurrence(dto)
 
@@ -65,7 +69,8 @@ class CreateHabit:
             color=color,
         )
 
-        # save the habit to the repository, this will assign a unique identifier to the habit
+        # save the habit to the repository
+        # this will assign a unique identifier to the habit
         return self.habit_repository.save_habit(habit)
 
     def _create_habit_category(self, dto: CreateHabitDTO) -> HabitCategory:
@@ -86,9 +91,6 @@ class CreateHabit:
     @staticmethod
     def _create_recurrence(dto: CreateHabitDTO) -> Recurrence:
         # find the recurrence class based on the name provided in the DTO
-
-        recurrence = RecurrenceFactory.get_recurrence_from_strings(
+        return RecurrenceFactory.get_recurrence_from_strings(
             dto.recurrence, dto.recurrence_days
         )
-
-        return recurrence

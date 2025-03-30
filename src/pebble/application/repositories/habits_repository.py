@@ -9,7 +9,6 @@ class HabitCreationError(Exception):
 
 
 class HabitRepository(ABC):
-
     @abstractmethod
     def save_habit(self, habit: Habit) -> Habit:
         """

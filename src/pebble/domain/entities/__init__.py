@@ -1,4 +1,7 @@
+from .habit import Habit
 from .habit_category import HabitCategory
+from .habit_collection import HabitCollection
+from .habit_instance import HabitInstance
 from .recurrences import (
     BiMonthly,
     BiWeekly,
@@ -9,9 +12,6 @@ from .recurrences import (
     Weekly,
     Yearly,
 )
-from .habit import Habit
-from .habit_collection import HabitCollection
-from .habit_instance import HabitInstance
 
 __all__ = [
     "Habit",

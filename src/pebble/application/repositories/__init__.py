@@ -1,1 +1,1 @@
-from .habits_repository import HabitRepository
+from .habits_repository import HabitRepository as HabitRepository

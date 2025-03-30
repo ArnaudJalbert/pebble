@@ -9,7 +9,9 @@ from pebble.domain.value_objects.types import ID, Note
 @dataclass
 class HabitInstance:
     """
-    This entity represents a habit instance, which is a habit that has been completed or not on a specific date.
+    This entity represents a habit instance, which is a habit
+    that has been completed or not on a specific date.
+
     It tracks the habit, the date, whether it was completed, and an optional note.
 
     Attributes:
