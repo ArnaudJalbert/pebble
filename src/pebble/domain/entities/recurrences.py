@@ -13,10 +13,12 @@ class Recurrence(ABC):
     This is the base entity for the Recurrence entity,
     concrete recurrences should inherit this class.
 
-    The weekly_recurrence, monthly_recurrence, or yearly_recurrence should be set to the number of times
-    the habit should recur in a week, month, or year respectively.
+    The weekly_recurrence, monthly_recurrence, or yearly_recurrence
+    should be set to the number of times the habit should recur
+    in a week, month, or year respectively.
 
-    Only one of the weekly_recurrence, monthly_recurrence, or yearly_recurrence should be set.
+    Only one of the weekly_recurrence, monthly_recurrence,
+    or yearly_recurrence should be set.
 
     Attributes:
         name: The name of the recurrence.
@@ -32,7 +34,8 @@ class Recurrence(ABC):
 
     def __init__(self, days_of_week: Optional[set[WeekDays]] = None) -> None:
         """
-        Initializes the recurrence entity with the days of the week the habit should recur.
+        Initializes the recurrence entity with the days of
+        the week the habit should recur.
 
         Attributes:
             days_of_week: The day(s) of the week the habit should recur.
@@ -80,12 +83,15 @@ class Recurrence(ABC):
         """
         Checks if the current recurrence is equal to another recurrence.
 
-        Equality is based on the name, the recurrence amount, and days of the week of the recurrence.
+        Equality is based on the name, the recurrence amount,
+        and days of the week of the recurrence.
+
         Args:
             other: The other recurrence to compare with.
 
         Returns:
-            True if the current recurrence is equal to the other recurrence, False otherwise.
+            True if the current recurrence is equal to the other recurrence,
+            False otherwise.
         """
 
         return (
@@ -119,12 +125,14 @@ class Daily(Recurrence):
     @days_of_week.setter
     def days_of_week(self, days_of_week: set[WeekDays]) -> None:
         """
-        Raises an AttributeError since daily recurrence's days of the week can't be changed, it is always all days.
+        Raises an AttributeError since daily recurrence's days of the week
+        can't be changed, it is always all days.
         Args:
             days_of_week: The day(s) of the week the habit should recur.
         """
         raise AttributeError(
-            "Daily recurrence does not have a days_of_week attribute, it is always all days."
+            "Daily recurrence does not have a days_of_week attribute, "
+            "it is always all days."
         )
 
 
@@ -138,7 +146,8 @@ class Weekly(Recurrence):
 
     def __init__(self, days_of_week: Optional[set[WeekDays]] = None) -> None:
         """
-        Initializes the weekly recurrence entity with the day(s) of the week the habit should recur.
+        Initializes the weekly recurrence entity with the day(s) of the week
+        the habit should recur.
         Checks that the number of days of the week is equal to the weekly recurrence.
 
         Args:
@@ -177,7 +186,7 @@ class BiWeekly(Weekly):
     name = "Bi-Weekly"
     weekly_recurrence = 2
 
-    def __init__(self, days_of_week: Optional[set[WeekDays]] = None):
+    def __init__(self, days_of_week: Optional[set[WeekDays]] = None) -> None:
         super().__init__(
             days_of_week if days_of_week else {WeekDays.TUESDAY, WeekDays.FRIDAY}
         )

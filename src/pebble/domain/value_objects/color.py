@@ -15,7 +15,7 @@ HEX_PATTERN = re.compile(r"^#(?:[0-9a-fA-F]{3}){1,2}$")
 class Color:
     hex: str
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if not self.is_valid_hex(self.hex):
             raise InvalidColorFormatError("Invalid color format")
 

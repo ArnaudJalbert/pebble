@@ -10,7 +10,8 @@ from pebble.domain.value_objects.types import ID, Description, Name
 @dataclass
 class HabitCategory:
     """
-    This entity represents a category for a habit. It contains a name, a description, and an optional color.
+    This entity represents a category for a habit.
+    It contains a name, a description, and an optional color.
 
     Attributes:
         name: The name of the category.

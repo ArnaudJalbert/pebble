@@ -8,8 +8,9 @@ from pebble.domain.value_objects.types import ID, Description, Name
 @dataclass
 class HabitCollection:
     """
-    This entity represents a collection of habits. It contains a name, a description, and a set of habits that belong to
-    the collection.
+    This entity represents a collection of habits.
+    It contains a name, a description, and a set of habits
+    that belong to the collection.
 
     Attributes:
         name: The name of the collection.

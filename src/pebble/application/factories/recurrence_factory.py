@@ -29,7 +29,6 @@ class RecurrenceFactory:
     def get_recurrence_from_strings(
         cls, recurrence_name: str, days_of_week: Set[str]
     ) -> Recurrence:
-
         # A daily recurrence is the default recurrence, no weekday is needed
         if recurrence_name.lower() == "daily":
             return Daily()

@@ -16,14 +16,17 @@ class CreateHabitCategoryDTO:
 class CreateHabitCategory:
     """
     Use case to create a new habit category entity.
-    The use case will create a new habit category entity based on the data provided in the DTO.
-    It is responsible for creating a new habit category entity and saving it to the habit category repository.
+    The use case will create a new habit category entity
+    based on the data provided in the DTO.
+
+    It is responsible for creating a new habit category
+    entity and saving it to the habit category repository.
 
     Attributes:
         habit_category_repository: The repository used to save the habit category
     """
 
-    def __init__(self, habit_category_repository: HabitRepository):
+    def __init__(self, habit_category_repository: HabitRepository) -> None:
         """
         Initializes the CreateHabitCategory use case with the habit category repository.
 
@@ -37,7 +40,8 @@ class CreateHabitCategory:
         Creates a new habit category entity based on the data provided in the DTO.
 
         Args:
-            dto: The data transfer object containing the data to create the habit category.
+            dto: The data transfer object containing the data to
+            create the habit category.
 
         Returns:
             The created habit category entity, with an ID.

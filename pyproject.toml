@@ -1,6 +1,6 @@
 [project]
 name = "pebble"
-version = "0.2.0"
+version = "0.3.0"
 description = "Minimalist habit tracker built using Clean Architecture."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -8,11 +8,21 @@ dependencies = []
 
 [dependency-groups]
 dev = [
-    "black>=25.1.0",
     "pytest>=8.3.5",
     "pytest-cov>=6.0.0",
+    "ruff>=0.11.2",
 ]
 
 # tell uv where the source code is
 [tool.pytest.ini_options]
 pythonpath = ["./src"]
+
+[tool.ruff.lint]
+extend-select = [
+    "E501", # line too long
+    "ANN", # flake8 type check
+    "N", # pep8 naming convention
+    "R", # pylint refactor rules
+    "I", # isort
+]
+ignore = []
