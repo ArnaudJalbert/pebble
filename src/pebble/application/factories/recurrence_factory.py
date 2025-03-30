@@ -1,14 +1,7 @@
 from typing import Set
 
-from pebble.domain.entities import (
-    Daily,
-    Weekly,
-    BiWeekly,
-    Monthly,
-    BiMonthly,
-    Yearly,
-    Quarterly,
-)
+from pebble.domain.entities import (BiMonthly, BiWeekly, Daily, Monthly,
+                                    Quarterly, Weekly, Yearly)
 from pebble.domain.value_objects import WeekDays
 
 

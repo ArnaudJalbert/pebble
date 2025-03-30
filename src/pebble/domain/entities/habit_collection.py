@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from typing import Optional
 
 from pebble.domain.entities import Habit
-from pebble.domain.value_objects.types import Name, Description, ID
+from pebble.domain.value_objects.types import ID, Description, Name
 
 
 @dataclass

@@ -1,5 +1,5 @@
-from .weekdays import WeekDays
 from .color import Color
+from .weekdays import WeekDays
 
 __all__ = [
     "Color",

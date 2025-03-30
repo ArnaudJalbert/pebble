@@ -2,14 +2,9 @@ from dataclasses import dataclass
 from typing import Optional, Union
 
 from pebble.application.factories import RecurrenceFactory
-from pebble.application.repositories.habits_repository import (
-    HabitRepository,
-)
+from pebble.application.repositories.habits_repository import HabitRepository
 from pebble.domain.entities import Habit, HabitCategory
-from pebble.domain.entities.recurrences import (
-    Recurrence,
-)
-
+from pebble.domain.entities.recurrences import Recurrence
 from pebble.domain.value_objects import Color
 
 
@@ -82,7 +77,7 @@ class CreateNewHabit:
             habit_category: HabitCategory = HabitCategory(
                 name=dto.category_name,
                 description=dto.category_description,
-                color=Color(hex=dto.category_color),
+                color=Color(hex=dto.category_color) if dto.category_color else None,
             )
             habit_category = self.habit_repository.save_habit_category(habit_category)
 

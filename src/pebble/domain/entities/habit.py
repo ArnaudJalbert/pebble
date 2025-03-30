@@ -3,15 +3,27 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional
 
-from pebble.domain.entities import Recurrence, HabitCategory
+from pebble.domain.entities import HabitCategory, Recurrence
 from pebble.domain.value_objects import Color
-from pebble.domain.value_objects.types import Name, Description, ID
-
-
+from pebble.domain.value_objects.types import ID, Description, Name
 
 
 @dataclass
 class Habit:
+    """
+    Represents a habit. A habit is a task that is repeated over time.
+    It contains a name, description, recurrence, category, and color.
+    It indicates the frequency of the habit, the category it belongs to, and the color associated with it.
+
+    Attributes:
+        name: The name of the habit.
+        recurrence: The recurrence of the habit.
+        description: The description of the habit.
+        category: The category of the habit.
+        color: The color associated with the habit.
+        id: The unique identifier of the habit.
+    """
+
     name: Name
     recurrence: Recurrence
     description: Optional[Description] = None

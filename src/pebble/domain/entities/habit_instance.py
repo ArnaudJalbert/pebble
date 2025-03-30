@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import Optional
 
 from pebble.domain.entities import Habit
-from pebble.domain.value_objects.types import Note, ID
+from pebble.domain.value_objects.types import ID, Note
 
 
 @dataclass

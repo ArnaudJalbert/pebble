@@ -1,9 +1,10 @@
 from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Optional
 
 from pebble.domain.value_objects import Color
-from pebble.domain.value_objects.types import Name, Description, ID
+from pebble.domain.value_objects.types import ID, Description, Name
 
 
 @dataclass

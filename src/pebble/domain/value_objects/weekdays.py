@@ -18,4 +18,4 @@ class WeekDays(Enum):
 
     @classmethod
     def valid_weekday(cls, day: str) -> bool:
-        return cls(day) in cls.get_all()
+        return day in cls._value2member_map_

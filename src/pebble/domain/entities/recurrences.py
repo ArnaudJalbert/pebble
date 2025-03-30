@@ -166,7 +166,7 @@ class Weekly(Recurrence):
             days_of_week: The day(s) of the week the habit should recur.
         """
         assert len(days_of_week) == self.weekly_recurrence
-        super().days_of_week = days_of_week
+        self._days_of_week = days_of_week
 
 
 class BiWeekly(Weekly):
@@ -193,7 +193,7 @@ class Monthly(Recurrence):
     yearly_recurrence = 12
 
     def __init__(self, days_of_week: Optional[set[WeekDays]] = None) -> None:
-        assert len(days_of_week) == 1 if days_of_week else True
+        assert len(days_of_week) == self.monthly_recurrence if days_of_week else True
         super().__init__(days_of_week)
 
 

@@ -116,11 +116,13 @@ def test_create_bimonthly_habit():
     habit = Habit(
         name="Test Habit",
         description="Test description",
-        recurrence=BiMonthly(days_of_week={WeekDays.TUESDAY}),
+        recurrence=BiMonthly(days_of_week={WeekDays.TUESDAY, WeekDays.FRIDAY}),
     )
     assert habit.name == "Test Habit"
     assert habit.description == "Test description"
-    assert habit.recurrence == BiMonthly(days_of_week={WeekDays.TUESDAY})
+    assert habit.recurrence == BiMonthly(
+        days_of_week={WeekDays.TUESDAY, WeekDays.FRIDAY}
+    )
     assert habit.category is None
     assert habit.color is None
     assert habit.id is None

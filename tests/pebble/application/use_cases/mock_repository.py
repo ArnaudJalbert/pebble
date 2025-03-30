@@ -42,7 +42,10 @@ class MockRepository(HabitRepository):
         habit_category = None
         for c in self.categories:
             if c.name == category_name:
-                habit_category = c
+                self.get_category_by_name_calls.append(
+                    Call(args=[category_name], return_value=c)
+                )
+                return c
 
         self.get_category_by_name_calls.append(
             Call(args=[category_name], return_value=habit_category)
