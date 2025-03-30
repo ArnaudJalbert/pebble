@@ -11,7 +11,7 @@ def test_create_habit_category():
 
 
 def test_create_habit_category_with_color():
-    color = Color(hex="#FFFFFF", name="white")
+    color = Color(hex="#FFFFFF")
     category = HabitCategory(
         name="Test Category", description="Test description", color=color
     )
@@ -64,7 +64,7 @@ def test_habit_category_inequality_with_different_id():
 
 
 def test_habit_category_equality_with_color():
-    color = Color(hex="#FFFFFF", name="white")
+    color = Color(hex="#FFFFFF")
     category1 = HabitCategory(
         name="Test Category", description="Test description", color=color
     )
@@ -75,8 +75,8 @@ def test_habit_category_equality_with_color():
 
 
 def test_habit_category_inequality_with_different_color():
-    color1 = Color(hex="#FFFFFF", name="white")
-    color2 = Color(hex="#000000", name="black")
+    color1 = Color(hex="#FFFFFF")
+    color2 = Color(hex="#000000")
     category1 = HabitCategory(
         name="Test Category", description="Test description", color=color1
     )
@@ -99,7 +99,7 @@ def test_habit_category_inequality_with_different_description():
 
 
 def test_habit_category_equality_with_all_attributes():
-    color = Color(hex="#FFFFFF", name="white")
+    color = Color(hex="#FFFFFF")
     category1 = HabitCategory(
         name="Test Category", description="Test description", color=color, id=1
     )
@@ -110,8 +110,8 @@ def test_habit_category_equality_with_all_attributes():
 
 
 def test_habit_category_inequality_with_different_all_attributes():
-    color1 = Color(hex="#FFFFFF", name="white")
-    color2 = Color(hex="#000000", name="black")
+    color1 = Color(hex="#FFFFFF")
+    color2 = Color(hex="#000000")
     category1 = HabitCategory(
         name="Test Category", description="Test description", color=color1, id=1
     )
