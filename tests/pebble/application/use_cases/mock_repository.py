@@ -21,7 +21,7 @@ class MockRepository(HabitRepository):
         self.get_category_by_name_calls = []
 
     def save_habit(self, habit: Habit) -> Habit:
-        habit.id = ID(str(len(self.habits) + 1))
+        habit.id = ID(len(self.habits) + 1)
         self.habits.append(habit)
 
         self.save_habit_calls.append(Call(args=[habit], return_value=habit))
