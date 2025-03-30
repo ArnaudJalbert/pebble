@@ -1,7 +1,7 @@
 from typing import Set
 
 from pebble.domain.entities import (BiMonthly, BiWeekly, Daily, Monthly,
-                                    Quarterly, Weekly, Yearly)
+                                    Quarterly, Recurrence, Weekly, Yearly)
 from pebble.domain.value_objects import WeekDays
 
 
@@ -20,7 +20,7 @@ class RecurrenceFactory:
     @classmethod
     def get_recurrence_from_strings(
         cls, recurrence_name: str, days_of_week: Set[str]
-    ) -> Daily:
+    ) -> Recurrence:
 
         # A daily recurrence is the default recurrence, no weekday is needed
         if recurrence_name.lower() == "daily":
