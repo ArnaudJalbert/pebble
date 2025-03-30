@@ -1,6 +1,6 @@
 [project]
 name = "pebble"
-version = "0.1.0"
+version = "0.2.0"
 description = "Minimalist habit tracker built using Clean Architecture."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -9,7 +9,6 @@ dependencies = []
 [dependency-groups]
 dev = [
     "black>=25.1.0",
-    "isort>=6.0.1",
     "pytest>=8.3.5",
     "pytest-cov>=6.0.0",
 ]

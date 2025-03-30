@@ -1,7 +1,6 @@
 import pytest
 
-from pebble.domain.entities import (BiMonthly, BiWeekly, Daily, Monthly,
-                                    Weekly, Yearly)
+from pebble.domain.entities import BiMonthly, BiWeekly, Daily, Monthly, Weekly, Yearly
 from pebble.domain.value_objects import WeekDays
 
 
