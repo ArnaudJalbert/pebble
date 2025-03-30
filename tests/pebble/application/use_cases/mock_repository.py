@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Union, Any, List
+from typing import Any, List, Union
 
 from pebble.application.repositories import HabitRepository
 from pebble.domain.entities import Habit, HabitCategory

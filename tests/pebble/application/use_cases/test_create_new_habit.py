@@ -1,12 +1,10 @@
 import pytest
-
-from pebble.application.use_cases.create_new_habit import (
-    CreateNewHabit,
-    CreateNewHabitDTO,
-)
-from pebble.domain.entities import BiMonthly, HabitCategory
-from pebble.domain.value_objects import WeekDays, Color
 from mock_repository import MockRepository
+
+from pebble.application.use_cases.create_new_habit import (CreateNewHabit,
+                                                           CreateNewHabitDTO)
+from pebble.domain.entities import BiMonthly, HabitCategory
+from pebble.domain.value_objects import Color, WeekDays
 
 
 @pytest.fixture
