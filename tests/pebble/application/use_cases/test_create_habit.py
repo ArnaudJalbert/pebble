@@ -1,8 +1,7 @@
 import pytest
 from mock_repository import MockRepository
 
-from pebble.application.use_cases.create_new_habit import (CreateNewHabit,
-                                                           CreateNewHabitDTO)
+from pebble.application.use_cases.create_habit import CreateHabit, CreateHabitDTO
 from pebble.domain.entities import BiMonthly, HabitCategory
 from pebble.domain.value_objects import Color, WeekDays
 
@@ -13,8 +12,8 @@ def habit_repository():
 
 
 def test_create_new_daily_habit(habit_repository):
-    use_case = CreateNewHabit(habit_repository)
-    dto = CreateNewHabitDTO(name="Test Habit", recurrence="Daily")
+    use_case = CreateHabit(habit_repository)
+    dto = CreateHabitDTO(name="Test Habit", recurrence="Daily")
     habit = use_case.execute(dto)
 
     # check the data in repository
@@ -37,8 +36,8 @@ def test_create_new_daily_habit(habit_repository):
 
 
 def test_create_new_weekly_habit(habit_repository):
-    use_case = CreateNewHabit(habit_repository)
-    dto = CreateNewHabitDTO(name="Test Habit", recurrence="Weekly")
+    use_case = CreateHabit(habit_repository)
+    dto = CreateHabitDTO(name="Test Habit", recurrence="Weekly")
     habit = use_case.execute(dto)
 
     # check the data in repository
@@ -61,8 +60,8 @@ def test_create_new_weekly_habit(habit_repository):
 
 
 def test_create_new_weekly_habit_with_weekday(habit_repository):
-    use_case = CreateNewHabit(habit_repository)
-    dto = CreateNewHabitDTO(
+    use_case = CreateHabit(habit_repository)
+    dto = CreateHabitDTO(
         name="Test Habit", recurrence="Weekly", recurrence_days={"Wednesday"}
     )
     habit = use_case.execute(dto)
@@ -87,8 +86,8 @@ def test_create_new_weekly_habit_with_weekday(habit_repository):
 
 
 def test_create_bi_weekly_habit_with_category(habit_repository):
-    use_case = CreateNewHabit(habit_repository)
-    dto = CreateNewHabitDTO(
+    use_case = CreateHabit(habit_repository)
+    dto = CreateHabitDTO(
         name="Test Habit",
         recurrence="Bi-Weekly",
         recurrence_days={"Wednesday", "Sunday"},
@@ -116,8 +115,8 @@ def test_create_bi_weekly_habit_with_category(habit_repository):
 
 
 def test_create_monthly_habit_with_category_and_color(habit_repository):
-    use_case = CreateNewHabit(habit_repository)
-    dto = CreateNewHabitDTO(
+    use_case = CreateHabit(habit_repository)
+    dto = CreateHabitDTO(
         name="Test Habit",
         recurrence="Monthly",
         recurrence_days={"Thursday"},
@@ -146,8 +145,8 @@ def test_create_monthly_habit_with_category_and_color(habit_repository):
 
 
 def test_create_bi_monthly_habit_with_category_color(habit_repository):
-    use_case = CreateNewHabit(habit_repository)
-    dto = CreateNewHabitDTO(
+    use_case = CreateHabit(habit_repository)
+    dto = CreateHabitDTO(
         name="Test Habit",
         description="Habit Description",
         recurrence="Bi-Monthly",
@@ -185,8 +184,8 @@ def test_create_habit_category_exists(habit_repository):
     habit_category = HabitCategory("Test Category", "A Description", Color("#33aa22"))
     habit_repository.categories.append(habit_category)
 
-    use_case = CreateNewHabit(habit_repository)
-    dto = CreateNewHabitDTO(
+    use_case = CreateHabit(habit_repository)
+    dto = CreateHabitDTO(
         name="Test Habit",
         recurrence="Bi-Monthly",
         description="Habit Description",

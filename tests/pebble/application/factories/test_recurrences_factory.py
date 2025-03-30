@@ -1,7 +1,6 @@
 import pytest
 
-from pebble.application.factories import (InvalidRecurrenceError,
-                                          RecurrenceFactory)
+from pebble.application.factories import InvalidRecurrenceError, RecurrenceFactory
 
 
 def test_invalid_days_of_week():

@@ -1,6 +1,14 @@
-from pebble.domain.entities import (BiMonthly, BiWeekly, Daily, Habit,
-                                    HabitCategory, Monthly, Quarterly, Weekly,
-                                    Yearly)
+from pebble.domain.entities import (
+    BiMonthly,
+    BiWeekly,
+    Daily,
+    Habit,
+    HabitCategory,
+    Monthly,
+    Quarterly,
+    Weekly,
+    Yearly,
+)
 from pebble.domain.value_objects import Color, WeekDays
 
 

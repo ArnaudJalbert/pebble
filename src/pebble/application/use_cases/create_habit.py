@@ -9,7 +9,7 @@ from pebble.domain.value_objects import Color
 
 
 @dataclass(frozen=True)
-class CreateNewHabitDTO:
+class CreateHabitDTO:
     name: str
     recurrence: str
     description: Optional[str] = None
@@ -20,7 +20,7 @@ class CreateNewHabitDTO:
     habit_color: Optional[str] = None
 
 
-class CreateNewHabit:
+class CreateHabit:
     """
     Use case to create a new habit entity.
     The use case will create a new habit entity based on the data provided in the DTO.
@@ -41,7 +41,7 @@ class CreateNewHabit:
         """
         self.habit_repository: HabitRepository = habit_repository
 
-    def execute(self, dto: CreateNewHabitDTO) -> Habit:
+    def execute(self, dto: CreateHabitDTO) -> Habit:
 
         # create a recurrence object, there must be a recurrence provided
         recurrence: Recurrence = self._create_recurrence(dto)
@@ -68,7 +68,7 @@ class CreateNewHabit:
         # save the habit to the repository, this will assign a unique identifier to the habit
         return self.habit_repository.save_habit(habit)
 
-    def _create_habit_category(self, dto: CreateNewHabitDTO) -> HabitCategory:
+    def _create_habit_category(self, dto: CreateHabitDTO) -> HabitCategory:
         # get the category by name if it exists
         habit_category = self.habit_repository.get_category_by_name(dto.category_name)
 
@@ -84,7 +84,7 @@ class CreateNewHabit:
         return habit_category
 
     @staticmethod
-    def _create_recurrence(dto: CreateNewHabitDTO) -> Recurrence:
+    def _create_recurrence(dto: CreateHabitDTO) -> Recurrence:
         # find the recurrence class based on the name provided in the DTO
 
         recurrence = RecurrenceFactory.get_recurrence_from_strings(
