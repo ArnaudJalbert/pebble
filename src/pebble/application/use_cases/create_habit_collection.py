@@ -19,7 +19,7 @@ class CreateHabitCollectionDTO:
 
     name: str
     description: Optional[str] = None
-    habits_ids: Set[ID] = None
+    habits_ids: Optional[Set[ID]] = None
 
 
 class CreateHabitCollection:
