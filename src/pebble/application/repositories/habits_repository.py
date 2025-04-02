@@ -32,13 +32,13 @@ class HabitRepository(ABC):
         Gets a set of habits by identifiers from the repository.
 
         Args:
-            habits_ids: The identifier of the habit to get.
+            habits_ids: A set of identifiers of the habits to get.
 
         Returns:
-            The habit with the provided identifier.
+            A set of habits with the provided identifiers.
 
         Raises:
-            RepositoryError: If the habit could not be found.
+            RepositoryError: If the habits could not be found.
         """
 
     @abstractmethod
