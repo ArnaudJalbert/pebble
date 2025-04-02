@@ -1,5 +1,4 @@
 import pytest
-from setuptools.command.build_ext import use_stubs
 
 from pebble.application.use_cases.create_habit_collection import (
     CreateHabitCollection,
