@@ -43,3 +43,6 @@ class Habit:
             and self.color == other.color
             and self.id == other.id
         )
+
+    def __hash__(self) -> int:
+        return hash(self.id)
