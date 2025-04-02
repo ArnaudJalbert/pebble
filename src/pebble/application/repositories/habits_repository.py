@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Set, Union
 
-from pebble.domain.entities import Habit, HabitCategory
+from pebble.domain.entities import Habit, HabitCategory, HabitCollection
 from pebble.domain.value_objects import ID
 
 
@@ -70,4 +70,22 @@ class HabitRepository(ABC):
 
         Raises:
             RepositoryError: If the category could not be found.
+        """
+
+    @abstractmethod
+    def save_habit_collection(
+        self, habit_collection: HabitCollection
+    ) -> HabitCollection:
+        """
+        Saves a new habit collection in the repository.
+        Assigns a unique identifier to the habit collection.
+
+        Args:
+            habit_collection: The habit collection to be saved.
+
+        Returns:
+            The saved habit collection, with the identifier.
+
+        Raises:
+            HabitCreationError: If the habit collection could not be created.
         """

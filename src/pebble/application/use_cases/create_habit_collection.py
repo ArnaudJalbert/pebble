@@ -55,4 +55,6 @@ class CreateHabitCollection:
             habits = self.habit_repository.get_habits_by_ids(dto.habits_ids)
             habit_collection.habits = habits
 
+        self.habit_repository.save_habit_collection(habit_collection)
+
         return habit_collection
