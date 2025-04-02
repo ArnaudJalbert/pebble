@@ -21,6 +21,7 @@ class CreateHabitCollectionDTO:
     description: Optional[str] = None
     habits_ids: Set[ID] = None
 
+
 class CreateHabitCollection:
     """
     Use case that creates a habit collection entity from a DTO.
