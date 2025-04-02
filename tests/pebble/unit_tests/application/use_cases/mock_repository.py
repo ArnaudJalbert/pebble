@@ -19,6 +19,7 @@ class MockRepository(HabitRepository):
         self.save_habit_calls = []
         self.save_habit_category_calls = []
         self.get_category_by_name_calls = []
+        self.get_habits_by_ids_calls = []
 
     def save_habit(self, habit: Habit) -> Habit:
         habit.id = ID(len(self.habits) + 1)
@@ -27,6 +28,15 @@ class MockRepository(HabitRepository):
         self.save_habit_calls.append(Call(args=[habit], return_value=habit))
 
         return habit
+
+    def get_habits_by_ids(self, habits_ids: set[ID]) -> set[Habit]:
+        habits = {habit for habit in self.habits if habit.id in habits_ids}
+
+        self.get_habits_by_ids_calls.append(
+            Call(args=[habits_ids], return_value=habits)
+        )
+
+        return habits
 
     def save_habit_category(self, habit_category: HabitCategory) -> HabitCategory:
         habit_category.id = ID(str(len(self.categories) + 1))

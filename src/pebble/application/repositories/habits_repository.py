@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
-from typing import Union
+from typing import Set, Union
 
 from pebble.domain.entities import Habit, HabitCategory
+from pebble.domain.value_objects import ID
 
 
 class HabitCreationError(Exception):
@@ -23,6 +24,21 @@ class HabitRepository(ABC):
 
         Raises:
             HabitCreationError: If the habit could not be created.
+        """
+
+    @abstractmethod
+    def get_habits_by_ids(self, habits_ids: Set[ID]) -> Set[Habit]:
+        """
+        Gets a set of habits by identifiers from the repository.
+
+        Args:
+            habits_ids: The identifier of the habit to get.
+
+        Returns:
+            The habit with the provided identifier.
+
+        Raises:
+            RepositoryError: If the habit could not be found.
         """
 
     @abstractmethod
