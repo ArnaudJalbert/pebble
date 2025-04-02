@@ -1,8 +1,24 @@
 name: Python Code Quality
 on: [push]
 jobs:
+  check_pyproject_changes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Ensure we fetch the main branch for comparison
+      - name: Check if pyproject.toml or CHANGES.md has changed
+        run: |
+          git fetch origin main
+          if git diff origin/main --exit-code -- pyproject.toml CHANGES.md; then
+            echo "No changes detected in pyproject.toml or CHANGES.md. Failing workflow!"
+            exit 1
+          else
+            echo "Changes detected in pyproject.toml or CHANGES.md. Proceeding..."
+          fi
   lock_file:
     runs-on: ubuntu-latest
+    needs: [check_pyproject_changes]
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup

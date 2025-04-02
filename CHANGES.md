@@ -1,13 +1,5 @@
 # Changelog
 
-## 0.4.1 - TAS-422 - 02-04-2025:
-  - Add basic README.
-
-## 0.4.0 - TAS-406 - 01-04-2025:
-  - Add use case for creating a habit collection.
-  - Add tests for new use case.
-  - Hash function for the habit entity.
-
 ## 0.3.0 - TAS-409 - 30-03-2025:
   - Add ruff to the project.
   - Add ruff check configuration.
