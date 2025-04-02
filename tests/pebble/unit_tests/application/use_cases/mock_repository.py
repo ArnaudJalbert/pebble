@@ -69,8 +69,7 @@ class MockRepository(HabitRepository):
     def save_habit_collection(
         self, habit_collection: HabitCollection
     ) -> HabitCollection:
-        habit_collection.id = ID(str(len(self.categories) + 1))
-
+        habit_collection.id = ID(str(len(self.habit_collections) + 1))
         self.habit_collections.append(habit_collection)
 
         self.save_habit_collection_calls.append(
