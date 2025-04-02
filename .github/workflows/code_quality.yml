@@ -1,8 +1,45 @@
 name: Python Code Quality
 on: [push]
 jobs:
+  check_pyproject_toml_changes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Ensure we fetch the main branch for comparison
+      - name: Extract current version from pyproject.toml
+        id: get_version
+        run: |
+          VERSION=$(grep -Po '(?<=version = ")[^"]*' pyproject.toml)
+          echo "Current version: $VERSION"
+          echo "version=$VERSION" >> "$GITHUB_ENV"
+      - name: Check if pyproject.toml has changed
+        run: |
+          git fetch origin main
+          if git diff origin/main --exit-code -- pyproject.toml; then
+            echo "The version in pyproject.toml must be incremented. Current version: $VERSION"
+            exit 1
+          else
+            echo "Changes detected in pyproject.toml. Proceeding..."
+          fi
+  check_changes_md_changes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Ensure we fetch the main branch for comparison
+      - name: Check if CHANGES.md has changed
+        run: |
+          git fetch origin main
+          if git diff origin/main --exit-code -- CHANGES.md; then
+            echo "A changelog entry must be added to CHANGES.md."
+            exit 1
+          else
+            echo "Changes detected in CHANGES.md. Proceeding..."
+          fi
   lock_file:
     runs-on: ubuntu-latest
+    needs: [check_pyproject_toml_changes, check_changes_md_changes]
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
