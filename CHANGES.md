@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.4.2 - TAS-423 - 02-04-2025:
+  - Run tests only on pull request.
+
 ## 0.4.1 - TAS-422 - 02-04-2025:
   - Add basic README.
 
