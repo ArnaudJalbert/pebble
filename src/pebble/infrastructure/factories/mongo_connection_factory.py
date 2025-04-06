@@ -17,12 +17,13 @@ class MongoConnectionFactory:
     """
 
     CONNECTION_URI: str = "mongodb+srv://arnojalbert:{password}@pebble.ihk2yd6.mongodb.net/?appName=pebble"
+    PASSWORD: str = os.getenv("MONGO_PASSWORD")
     SERVER_API_VERSION: str = "1"
     PING: str = "ping"
 
     @classmethod
     def get_mongo_client(cls) -> MongoClient:
-        uri: str = cls.CONNECTION_URI.format(password=os.getenv("MONGO_PASSWORD"))
+        uri: str = cls.CONNECTION_URI.format(password=cls.PASSWORD)
 
         try:
             # Create a new client and connect to the server
