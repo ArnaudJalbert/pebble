@@ -1,3 +1,5 @@
+from unittest.mock import MagicMock, patch
+
 import pytest
 
 from pebble.infrastructure.factories import MongoConnectionError, MongoConnectionFactory
@@ -8,8 +10,11 @@ def wrong_uri_connection() -> MongoConnectionFactory:
     """
     Test the MongoDB connection with an incorrect URI.
     """
-    monkeypatch.setattr(MongoConnectionFactory, "CONNECTION_URI", "mongodb://wrong_uri{password}")
+    good_uri = MongoConnectionFactory.CONNECTION_URI
+    MongoConnectionFactory.CONNECTION_URI = "mongodb://wrong_uri"
     yield MongoConnectionFactory
+    MongoConnectionFactory.CONNECTION_URI = good_uri
+
 
 @pytest.fixture
 def no_password_connection() -> MongoConnectionFactory:
@@ -37,20 +42,27 @@ def test_mongo_connection() -> None:
     assert mongo_client.server_info() is not None
 
 
-def test_mongo_connection_error(wrong_uri_connection: MongoConnectionFactory) -> None:
+@patch(
+    "pebble.infrastructure.factories.mongo_connection_factory.MongoConnectionFactory.CONNECTION_URI"
+)
+def test_mongo_connection_error(uri_patch: MagicMock) -> None:
     """
     Test the MongoDB connection error.
     """
+    uri_patch.return_value = "mongodb://wrong_uri"
+    assert MongoConnectionFactory.CONNECTION_URI is uri_patch
     with pytest.raises(MongoConnectionError):
-        wrong_uri_connection.get_mongo_client()
+        MongoConnectionFactory.get_mongo_client()
 
 
-def test_mongo_connection_no_password(
-    no_password_connection: MongoConnectionFactory,
-) -> None:
+@patch(
+    "pebble.infrastructure.factories.mongo_connection_factory.MongoConnectionFactory.MONGO_PASSWORD"
+)
+def test_mongo_connection_no_password(password_patch: MagicMock) -> None:
     """
     Test the MongoDB connection with no password.
     """
-    assert no_password_connection.MONGO_PASSWORD is None
+    password_patch.return_value = None
+    assert MongoConnectionFactory.MONGO_PASSWORD is password_patch
     with pytest.raises(MongoConnectionError):
-        no_password_connection.get_mongo_client()
+        MongoConnectionFactory.get_mongo_client()

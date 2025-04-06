@@ -28,13 +28,12 @@ class MongoConnectionFactory:
 
         uri: str = cls.CONNECTION_URI.format(password=cls.MONGO_PASSWORD)
 
-        # Create a new client and connect to the server
-        client: MongoClient = MongoClient(
-            uri, server_api=ServerApi(cls.SERVER_API_VERSION)
-        )
-
-        # Send a ping to confirm a successful connection
         try:
+            # Create a new client and connect to the server
+            client: MongoClient = MongoClient(
+                uri, server_api=ServerApi(cls.SERVER_API_VERSION)
+            )
+            # Send a ping to confirm a successful connection
             client.admin.command(cls.PING)
         except Exception as e:
             raise MongoConnectionError(f"Failed to connect to MongoDB: {e}")
