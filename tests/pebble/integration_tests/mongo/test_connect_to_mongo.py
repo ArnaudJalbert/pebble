@@ -8,11 +8,8 @@ def wrong_uri_connection() -> MongoConnectionFactory:
     """
     Test the MongoDB connection with an incorrect URI.
     """
-    good_uri = MongoConnectionFactory.CONNECTION_URI
-    MongoConnectionFactory.CONNECTION_URI = "mongodb://wrong_uri{password}"
+    monkeypatch.setattr(MongoConnectionFactory, "CONNECTION_URI", "mongodb://wrong_uri{password}")
     yield MongoConnectionFactory
-    MongoConnectionFactory.CONNECTION_URI = good_uri
-
 
 @pytest.fixture
 def no_password_connection() -> MongoConnectionFactory:
