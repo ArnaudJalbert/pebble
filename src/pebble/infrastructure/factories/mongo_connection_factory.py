@@ -16,15 +16,12 @@ class MongoConnectionFactory:
     MongoDB Connector class for connecting to a MongoDB database.
     """
 
-    CONNECTION_URI: str = (
-        "mongodb+srv://arnojalbert:{password}@pebble.ihk2yd6.mongodb.net/?appName=pebble"
-    )
+    CONNECTION_URI: str = "mongodb+srv://arnojalbert:{password}@pebble.ihk2yd6.mongodb.net/?appName=pebble"
     SERVER_API_VERSION: str = "1"
     PING: str = "ping"
 
     @classmethod
     def get_mongo_client(cls) -> MongoClient:
-
         uri: str = cls.CONNECTION_URI.format(password=os.getenv("MONGO_PASSWORD"))
 
         try:
