@@ -54,5 +54,6 @@ def test_mongo_connection_no_password(
     """
     Test the MongoDB connection with no password.
     """
+    assert no_password_connection.MONGO_PASSWORD is None
     with pytest.raises(MongoConnectionError):
         no_password_connection.get_mongo_client()

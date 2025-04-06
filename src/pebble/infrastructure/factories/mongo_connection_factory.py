@@ -17,7 +17,7 @@ class MongoConnectionFactory:
     """
 
     CONNECTION_URI: str = "mongodb+srv://arnojalbert:{password}@pebble.ihk2yd6.mongodb.net/?appName=pebble"
-    MONGO_PASSWORD: str = os.getenv("MONGO_PASSWORD")
+    MONGO_PASSWORD: str = os.getenv("MONGO_PASSWORD", None)
     SERVER_API_VERSION: str = "1"
     PING: str = "ping"
 
