@@ -87,9 +87,6 @@ class CreateHabitInstance:
             habit=habit, date=dto.date, completed=dto.completed, note=dto.note
         )
 
-        # Save the habit instance to the repository
-        habit_instance = self.habit_repository.save_habit_instance(habit_instance)
-
         # Check if the habit collection exists
         habit_collection: HabitCollection = (
             self.habit_repository.get_habit_collection_by_id(dto.habit_collection_id)
@@ -100,6 +97,9 @@ class CreateHabitInstance:
                 f"Habit collection with ID {dto.habit_collection_id} not found."
                 f"The habit instance cannot be created without a Habit Collection."
             )
+
+        # Save the habit instance to the repository
+        habit_instance = self.habit_repository.save_habit_instance(habit_instance)
 
         # Add the habit instance to the habit collection
         habit_collection.habits_instance.add(habit_instance)

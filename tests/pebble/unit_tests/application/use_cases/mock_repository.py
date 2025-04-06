@@ -17,12 +17,17 @@ class MockRepository(HabitRepository):
         self.habits = []
         self.categories = []
         self.habit_collections = []
+        self.habit_instances = []
 
         self.save_habit_calls = []
         self.save_habit_category_calls = []
         self.get_category_by_name_calls = []
         self.get_habits_by_ids_calls = []
         self.save_habit_collection_calls = []
+        self.get_habit_by_id_calls = []
+        self.save_habit_instances_calls = []
+        self.get_habit_collection_by_id_calls = []
+        self.update_habit_collection_calls = []
 
     def save_habit(self, habit: Habit) -> Habit:
         habit.id = ID(len(self.habits) + 1)
@@ -77,15 +82,49 @@ class MockRepository(HabitRepository):
         return habit_collection
 
     def get_habit_collection_by_id(self, habit_collection_id: ID) -> HabitCollection:
-        pass
+        habit_collection_to_return = None
+        for habit_collection in self.habit_collections:
+            if habit_collection.id == habit_collection_id:
+                habit_collection_to_return = habit_collection
+                break
+
+        self.get_habit_collection_by_id_calls.append(
+            Call(args=[habit_collection_id], return_value=habit_collection_to_return)
+        )
+
+        return habit_collection_to_return
 
     def get_habit_by_id(self, habit_id: ID) -> Habit:
-        pass
+        habit_to_return = None
+        for habit in self.habits:
+            if habit.id == habit_id:
+                habit_to_return = habit
+                break
+        self.get_habit_by_id_calls.append(
+            Call(args=[habit_id], return_value=habit_to_return)
+        )
+        return habit_to_return
 
     def save_habit_instance(self, habit_instance: HabitInstance) -> HabitInstance:
-        pass
+        habit_instance.id = ID(str(len(self.habits) + 1))
+        self.habit_instances.append(habit_instance)
+
+        self.save_habit_instances_calls.append(
+            Call(args=[habit_instance], return_value=habit_instance)
+        )
+
+        return habit_instance
 
     def update_habit_collection(
         self, habit_collection: HabitCollection
     ) -> HabitCollection:
-        pass
+        for i, hc in enumerate(self.habit_collections):
+            if hc.id == habit_collection.id:
+                self.habit_collections[i] = habit_collection
+                break
+
+        self.update_habit_collection_calls.append(
+            Call(args=[habit_collection], return_value=habit_collection)
+        )
+
+        return habit_collection
