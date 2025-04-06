@@ -72,7 +72,7 @@ class CreateHabitInstance:
 
         if habit is None:
             raise HabitInstanceCreationError(
-                f"Habit with ID {dto.habit_id} not found."
+                f"Habit with ID {dto.habit_id} not found. "
                 f"The habit instance cannot be created without a Habit."
             )
 
@@ -94,7 +94,7 @@ class CreateHabitInstance:
 
         if habit_collection is None:
             raise HabitInstanceCreationError(
-                f"Habit collection with ID {dto.habit_collection_id} not found."
+                f"Habit collection with ID {dto.habit_collection_id} not found. "
                 f"The habit instance cannot be created without a Habit Collection."
             )
 

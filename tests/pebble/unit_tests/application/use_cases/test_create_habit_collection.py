@@ -1,15 +1,15 @@
 import pytest
+from mock_repository import MockRepository
 
 from pebble.application.use_cases.create_habit_collection import (
     CreateHabitCollection,
     CreateHabitCollectionDTO,
 )
-from pebble.domain.entities import Habit, Daily
-from mock_repository import MockRepository
+from pebble.domain.entities import Daily, Habit
 
 
 @pytest.fixture
-def habit_repository():
+def habit_repository() -> MockRepository:
     return MockRepository()
 
 
@@ -31,7 +31,6 @@ def test_create_empty_habit_collection(habit_repository: MockRepository) -> None
 
 
 def test_create_habit_collection_with_habits(habit_repository: MockRepository) -> None:
-
     habits = [
         Habit(
             name="Habit 1",

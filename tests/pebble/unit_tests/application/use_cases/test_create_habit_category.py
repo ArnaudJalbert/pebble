@@ -1,5 +1,6 @@
 import pytest
 from mock_repository import MockRepository
+
 from pebble.application.use_cases import CreateHabitCategory, CreateHabitCategoryDTO
 from pebble.domain.entities import HabitCategory
 
@@ -9,7 +10,7 @@ def habit_repository() -> MockRepository:
     return MockRepository()
 
 
-def test_create_habit_category(habit_repository: MockRepository):
+def test_create_habit_category(habit_repository: MockRepository) -> None:
     use_case = CreateHabitCategory(habit_repository)
     dto = CreateHabitCategoryDTO(
         name="Cooking",
@@ -29,7 +30,7 @@ def test_create_habit_category(habit_repository: MockRepository):
     assert habit_category.color.hex == "#FF0000"
 
 
-def test_create_habit_category_no_color(habit_repository: MockRepository):
+def test_create_habit_category_no_color(habit_repository: MockRepository) -> None:
     use_case = CreateHabitCategory(habit_repository)
     dto = CreateHabitCategoryDTO(
         name="Cooking",
@@ -49,7 +50,7 @@ def test_create_habit_category_no_color(habit_repository: MockRepository):
     assert habit_category.color is None
 
 
-def test_create_habit_category_no_description(habit_repository: MockRepository):
+def test_create_habit_category_no_description(habit_repository: MockRepository) -> None:
     use_case = CreateHabitCategory(habit_repository)
     dto = CreateHabitCategoryDTO(
         name="Cooking",
@@ -71,7 +72,7 @@ def test_create_habit_category_no_description(habit_repository: MockRepository):
 
 def test_create_habit_category_no_description_or_color(
     habit_repository: MockRepository,
-):
+) -> None:
     use_case = CreateHabitCategory(habit_repository)
     dto = CreateHabitCategoryDTO(
         name="Cooking",

@@ -13,7 +13,7 @@ class Call:
 
 
 class MockRepository(HabitRepository):
-    def __init__(self):
+    def __init__(self) -> None:
         self.habits = []
         self.categories = []
         self.habit_collections = []
