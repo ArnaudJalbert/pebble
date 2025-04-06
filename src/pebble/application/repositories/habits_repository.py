@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Set, Union
 
-from pebble.domain.entities import Habit, HabitCategory, HabitCollection
+from pebble.domain.entities import Habit, HabitCategory, HabitCollection, HabitInstance
 from pebble.domain.value_objects import ID
 
 
@@ -24,6 +24,21 @@ class HabitRepository(ABC):
 
         Raises:
             HabitCreationError: If the habit could not be created.
+        """
+
+    @abstractmethod
+    def get_habit_by_id(self, habit_id: ID) -> Habit:
+        """
+        Gets a habit by identifier from the repository.
+
+        Args:
+            habit_id: The identifier of the habit to get.
+
+        Returns:
+            The habit with the provided identifier.
+
+        Raises:
+            RepositoryError: If the habit could not be found.
         """
 
     @abstractmethod
@@ -88,4 +103,52 @@ class HabitRepository(ABC):
 
         Raises:
             HabitCreationError: If the habit collection could not be created.
+        """
+
+    @abstractmethod
+    def update_habit_collection(
+        self, habit_collection: HabitCollection
+    ) -> HabitCollection:
+        """
+        Updates an existing habit collection in the repository.
+
+        Args:
+            habit_collection: The habit collection to be updated.
+
+        Returns:
+            The updated habit collection.
+
+        Raises:
+            RepositoryError: If the habit collection could not be updated.
+        """
+
+    @abstractmethod
+    def get_habit_collection_by_id(self, habit_collection_id: ID) -> HabitCollection:
+        """
+        Gets a habit collection by identifier from the repository.
+
+        Args:
+            habit_collection_id: The identifier of the habit collection to get.
+
+        Returns:
+            The habit collection with the provided identifier.
+
+        Raises:
+            RepositoryError: If the habit collection could not be found.
+        """
+
+    @abstractmethod
+    def save_habit_instance(self, habit_instance: HabitInstance) -> HabitInstance:
+        """
+        Saves a new habit instance in the repository.
+        Assigns a unique identifier to the habit instance.
+
+        Args:
+            habit_instance: The habit instance to be saved.
+
+        Returns:
+            The saved habit instance, with the identifier.
+
+        Raises:
+            HabitCreationError: If the habit instance could not be created.
         """

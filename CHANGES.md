@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.0 - TAS-407+TAS-411 - 06-04-2025
+  - Add use case for creating a habit instances.
+  - Make all imports in the entity module relative to the domain module.
+  - Add tests for the new use case.
+
 ## 0.4.2 - TAS-423 - 02-04-2025:
   - Run tests only on pull request.
 

@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Any, List, Union
 
 from pebble.application.repositories import HabitRepository
-from pebble.domain.entities import Habit, HabitCategory, HabitCollection
+from pebble.domain.entities import Habit, HabitCategory, HabitCollection, HabitInstance
 from pebble.domain.value_objects.types import ID
 
 
@@ -35,9 +35,7 @@ class MockRepository(HabitRepository):
     def get_habits_by_ids(self, habits_ids: set[ID]) -> set[Habit]:
         habits = {habit for habit in self.habits if habit.id in habits_ids}
 
-        self.get_habits_by_ids_calls.append(
-            Call(args=[habits], return_value=habits)
-        )
+        self.get_habits_by_ids_calls.append(Call(args=[habits], return_value=habits))
 
         return habits
 
@@ -77,3 +75,17 @@ class MockRepository(HabitRepository):
         )
 
         return habit_collection
+
+    def get_habit_collection_by_id(self, habit_collection_id: ID) -> HabitCollection:
+        pass
+
+    def get_habit_by_id(self, habit_id: ID) -> Habit:
+        pass
+
+    def save_habit_instance(self, habit_instance: HabitInstance) -> HabitInstance:
+        pass
+
+    def update_habit_collection(
+        self, habit_collection: HabitCollection
+    ) -> HabitCollection:
+        pass

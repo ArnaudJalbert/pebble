@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
 
-from pebble.domain.entities import Habit
-from pebble.domain.value_objects.types import ID, Note
+from ..value_objects import ID, Note
+from .habit import Habit
 
 
 @dataclass

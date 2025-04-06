@@ -1,8 +1,9 @@
 from dataclasses import dataclass, field
 from typing import Optional
 
-from pebble.domain.entities import Habit
-from pebble.domain.value_objects.types import ID, Description, Name
+from ..value_objects.types import ID, Description, Name
+from .habit import Habit
+from .habit_instance import HabitInstance
 
 
 @dataclass
@@ -23,5 +24,5 @@ class HabitCollection:
     name: Name
     description: Optional[Description] = None
     habits: set[Habit] = field(default_factory=lambda: set())
-    habits_instance: set[Habit] = field(default_factory=lambda: set())
+    habits_instance: set[HabitInstance] = field(default_factory=lambda: set())
     id: Optional[ID] = None
