@@ -4,7 +4,7 @@ import pytest
 
 from pebble.application.use_cases import CreateHabitInstance, CreateHabitInstanceDTO
 from pebble.domain.entities import Habit, Daily, HabitCollection
-from tests.pebble.unit_tests.application.use_cases.mock_repository import MockRepository
+from mock_repository import MockRepository
 
 
 @pytest.fixture
