@@ -16,17 +16,16 @@ class MongoConnectionFactory:
     MongoDB Connector class for connecting to a MongoDB database.
     """
 
-    CONNECTION_URI: str = "mongodb+srv://arnojalbert:{password}@pebble.ihk2yd6.mongodb.net/?appName=pebble"
-    MONGO_PASSWORD: str = os.getenv("MONGO_PASSWORD", None)
+    CONNECTION_URI: str = (
+        "mongodb+srv://arnojalbert:{password}@pebble.ihk2yd6.mongodb.net/?appName=pebble"
+    )
     SERVER_API_VERSION: str = "1"
     PING: str = "ping"
 
     @classmethod
     def get_mongo_client(cls) -> MongoClient:
-        if cls.MONGO_PASSWORD is None:
-            raise MongoConnectionError("MONGO_PASSWORD environment variable not set.")
 
-        uri: str = cls.CONNECTION_URI.format(password=cls.MONGO_PASSWORD)
+        uri: str = cls.CONNECTION_URI.format(password=os.getenv("MONGO_PASSWORD"))
 
         try:
             # Create a new client and connect to the server

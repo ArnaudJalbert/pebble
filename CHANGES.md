@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.5.1 - TAS-427 - 06-04-2025
+## 0.6.0 - TAS-427 - 06-04-2025
   - Factory to connect to Mongo and get a Mongo client.
   - Integration test for the Mongo connection.
   - Added loadenv and pymongo as dependencies.
