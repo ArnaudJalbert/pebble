@@ -106,7 +106,7 @@ class MockRepository(HabitRepository):
         return habit_to_return
 
     def save_habit_instance(self, habit_instance: HabitInstance) -> HabitInstance:
-        habit_instance.id = ID(str(len(self.habits) + 1))
+        habit_instance.id = ID(str(len(self.habit_instances) + 1))
         self.habit_instances.append(habit_instance)
 
         self.save_habit_instances_calls.append(
