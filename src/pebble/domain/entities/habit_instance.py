@@ -28,5 +28,5 @@ class HabitInstance:
     note: Optional[Note] = None
     id: Optional[ID] = None
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash(self.id)
