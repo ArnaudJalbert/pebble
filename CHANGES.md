@@ -4,6 +4,7 @@
   - Add use case for creating a habit instances.
   - Make all imports in the entity module relative to the domain module.
   - Add tests for the new use case.
+  - Ruff format + check on tests.
 
 ## 0.4.2 - TAS-423 - 02-04-2025:
   - Run tests only on pull request.
