@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.0 - TAS-427 - 06-04-2025
+  - Factory to connect to Mongo and get a Mongo client.
+  - Integration test for the Mongo connection.
+  - Added loadenv and pymongo as dependencies.
+  - Add `.env` file to the repository, for Mongo password, reflected in GitHub secrets.
+  - Update CI to run unit tests and integration tests separately.
+
 ## 0.5.0 - TAS-407+TAS-411 - 06-04-2025
   - Add use case for creating a habit instances.
   - Make all imports in the entity module relative to the domain module.
