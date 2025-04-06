@@ -1,6 +1,6 @@
 [project]
 name = "pebble"
-version = "0.4.2"
+version = "0.5.0"
 description = "Minimalist habit tracker built using Clean Architecture."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -16,6 +16,9 @@ dev = [
 # tell uv where the source code is
 [tool.pytest.ini_options]
 pythonpath = ["./src"]
+
+[tool.ruff]
+line-length = 88
 
 [tool.ruff.lint]
 extend-select = [

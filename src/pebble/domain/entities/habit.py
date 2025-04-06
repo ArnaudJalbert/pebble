@@ -3,7 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional
 
-from ..value_objects import ID, Color, Description, Name
+from ..value_objects.color import Color
+from ..value_objects.types import ID, Description, Name
 from .habit_category import HabitCategory
 from .recurrences import Recurrence
 

@@ -12,7 +12,7 @@ from pebble.domain.entities import (
 from pebble.domain.value_objects import Color, WeekDays
 
 
-def test_create_daily_habit():
+def test_create_daily_habit() -> None:
     habit = Habit(name="Test Habit", description="Test description", recurrence=Daily())
     assert habit.name == "Test Habit"
     assert habit.description == "Test description"
@@ -22,7 +22,7 @@ def test_create_daily_habit():
     assert habit.id is None
 
 
-def test_create_daily_habit_with_category():
+def test_create_daily_habit_with_category() -> None:
     habit = Habit(
         name="Test Habit",
         description="Test description",
@@ -43,7 +43,7 @@ def test_create_daily_habit_with_category():
     assert habit.id is None
 
 
-def test_create_daily_habit_with_category_and_color():
+def test_create_daily_habit_with_category_and_color() -> None:
     color = Color(hex="#FFFFFF")
     habit = Habit(
         name="Test Habit",
@@ -68,7 +68,7 @@ def test_create_daily_habit_with_category_and_color():
     assert habit.id is None
 
 
-def test_create_weekly_habit():
+def test_create_weekly_habit() -> None:
     habit = Habit(
         name="Test Habit",
         description="Test description",
@@ -82,7 +82,7 @@ def test_create_weekly_habit():
     assert habit.id is None
 
 
-def test_create_biweekly_habit():
+def test_create_biweekly_habit() -> None:
     habit = Habit(
         name="Test Habit",
         description="Test description",
@@ -98,7 +98,7 @@ def test_create_biweekly_habit():
     assert habit.id is None
 
 
-def test_create_monthly_habit():
+def test_create_monthly_habit() -> None:
     habit = Habit(
         name="Test Habit",
         description="Test description",
@@ -112,7 +112,7 @@ def test_create_monthly_habit():
     assert habit.id is None
 
 
-def test_create_bimonthly_habit():
+def test_create_bimonthly_habit() -> None:
     habit = Habit(
         name="Test Habit",
         description="Test description",
@@ -128,7 +128,7 @@ def test_create_bimonthly_habit():
     assert habit.id is None
 
 
-def test_create_yearly_habit():
+def test_create_yearly_habit() -> None:
     habit = Habit(
         name="Test Habit",
         description="Test description",
@@ -142,7 +142,7 @@ def test_create_yearly_habit():
     assert habit.id is None
 
 
-def test_create_quarterly_habit():
+def test_create_quarterly_habit() -> None:
     habit = Habit(
         name="Test Habit",
         description="Test description",
@@ -156,7 +156,7 @@ def test_create_quarterly_habit():
     assert habit.id is None
 
 
-def test_habit_equality_without_id():
+def test_habit_equality_without_id() -> None:
     habit1 = Habit(
         name="Test Habit", description="Test description", recurrence=Daily()
     )
@@ -166,7 +166,7 @@ def test_habit_equality_without_id():
     assert habit1 == habit2
 
 
-def test_habit_inequality_without_id():
+def test_habit_inequality_without_id() -> None:
     habit1 = Habit(
         name="Test Habit", description="Test description", recurrence=Daily()
     )
@@ -176,7 +176,7 @@ def test_habit_inequality_without_id():
     assert habit1 != habit2
 
 
-def test_habit_equality_with_id():
+def test_habit_equality_with_id() -> None:
     habit1 = Habit(
         name="Test Habit", description="Test description", recurrence=Daily(), id=1
     )
@@ -189,7 +189,7 @@ def test_habit_equality_with_id():
     assert habit1 == habit2
 
 
-def test_habit_inequality_with_different_id():
+def test_habit_inequality_with_different_id() -> None:
     habit1 = Habit(
         name="Test Habit", description="Test description", recurrence=Daily(), id=1
     )

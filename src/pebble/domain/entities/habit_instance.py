@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
 
-from pebble.domain.entities import Habit
-from pebble.domain.value_objects.types import ID, Note
+from ..value_objects import ID, Note
+from .habit import Habit
 
 
 @dataclass
@@ -27,3 +27,6 @@ class HabitInstance:
     completed: bool
     note: Optional[Note] = None
     id: Optional[ID] = None
+
+    def __hash__(self) -> int:
+        return hash(self.id)

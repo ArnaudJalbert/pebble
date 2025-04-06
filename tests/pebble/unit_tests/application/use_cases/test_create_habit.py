@@ -7,11 +7,11 @@ from pebble.domain.value_objects import Color, WeekDays
 
 
 @pytest.fixture
-def habit_repository():
+def habit_repository() -> MockRepository:
     return MockRepository()
 
 
-def test_create_new_daily_habit(habit_repository):
+def test_create_new_daily_habit(habit_repository: MockRepository) -> None:
     use_case = CreateHabit(habit_repository)
     dto = CreateHabitDTO(name="Test Habit", recurrence="Daily")
     habit = use_case.execute(dto)
@@ -35,7 +35,7 @@ def test_create_new_daily_habit(habit_repository):
     assert habit.id is not None
 
 
-def test_create_new_weekly_habit(habit_repository):
+def test_create_new_weekly_habit(habit_repository: MockRepository) -> None:
     use_case = CreateHabit(habit_repository)
     dto = CreateHabitDTO(name="Test Habit", recurrence="Weekly")
     habit = use_case.execute(dto)
@@ -59,7 +59,7 @@ def test_create_new_weekly_habit(habit_repository):
     assert habit.id is not None
 
 
-def test_create_new_weekly_habit_with_weekday(habit_repository):
+def test_create_new_weekly_habit_with_weekday(habit_repository: MockRepository) -> None:
     use_case = CreateHabit(habit_repository)
     dto = CreateHabitDTO(
         name="Test Habit", recurrence="Weekly", recurrence_days={"Wednesday"}
@@ -85,7 +85,7 @@ def test_create_new_weekly_habit_with_weekday(habit_repository):
     assert habit.id is not None
 
 
-def test_create_bi_weekly_habit_with_category(habit_repository):
+def test_create_bi_weekly_habit_with_category(habit_repository: MockRepository) -> None:
     use_case = CreateHabit(habit_repository)
     dto = CreateHabitDTO(
         name="Test Habit",
@@ -114,7 +114,9 @@ def test_create_bi_weekly_habit_with_category(habit_repository):
     assert habit.id is not None
 
 
-def test_create_monthly_habit_with_category_and_color(habit_repository):
+def test_create_monthly_habit_with_category_and_color(
+    habit_repository: MockRepository,
+) -> None:
     use_case = CreateHabit(habit_repository)
     dto = CreateHabitDTO(
         name="Test Habit",
@@ -144,7 +146,9 @@ def test_create_monthly_habit_with_category_and_color(habit_repository):
     assert habit.id is not None
 
 
-def test_create_bi_monthly_habit_with_category_color(habit_repository):
+def test_create_bi_monthly_habit_with_category_color(
+    habit_repository: MockRepository,
+) -> None:
     use_case = CreateHabit(habit_repository)
     dto = CreateHabitDTO(
         name="Test Habit",
@@ -180,7 +184,7 @@ def test_create_bi_monthly_habit_with_category_color(habit_repository):
     assert habit.id is not None
 
 
-def test_create_habit_category_exists(habit_repository):
+def test_create_habit_category_exists(habit_repository: MockRepository) -> None:
     habit_category = HabitCategory("Test Category", "A Description", Color("#33aa22"))
     habit_repository.categories.append(habit_category)
 

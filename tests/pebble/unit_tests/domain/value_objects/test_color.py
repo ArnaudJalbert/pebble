@@ -4,6 +4,6 @@ from pebble.domain.value_objects import Color
 from pebble.domain.value_objects.color import InvalidColorFormatError
 
 
-def test_invalid_color():
+def test_invalid_color() -> None:
     with pytest.raises(InvalidColorFormatError):
         Color("invalid color")
