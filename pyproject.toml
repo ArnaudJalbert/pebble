@@ -1,10 +1,13 @@
 [project]
 name = "pebble"
-version = "0.5.0"
+version = "0.5.1"
 description = "Minimalist habit tracker built using Clean Architecture."
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "dotenv>=0.9.9",
+    "pymongo>=4.11.3",
+]
 
 [dependency-groups]
 dev = [
