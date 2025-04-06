@@ -1,3 +1,5 @@
+import os
+
 import dotenv
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
@@ -15,12 +17,15 @@ class MongoConnectionFactory:
     """
 
     CONNECTION_URI: str = "mongodb+srv://arnojalbert:{password}@pebble.ihk2yd6.mongodb.net/?appName=pebble"
-    MONGO_PASSWORD: str = dotenv.dotenv_values().get("MONGO_PASSWORD")
+    MONGO_PASSWORD: str = os.getenv("MONGO_PASSWORD")
     SERVER_API_VERSION: str = "1"
     PING: str = "ping"
 
     @classmethod
     def get_mongo_client(cls) -> MongoClient:
+        if cls.MONGO_PASSWORD is None:
+            raise MongoConnectionError("MONGO_PASSWORD environment variable not set.")
+
         uri: str = cls.CONNECTION_URI.format(password=cls.MONGO_PASSWORD)
 
         # Create a new client and connect to the server

@@ -14,6 +14,17 @@ def wrong_uri_connection() -> MongoConnectionFactory:
     MongoConnectionFactory.CONNECTION_URI = good_uri
 
 
+@pytest.fixture
+def no_password_connection() -> MongoConnectionFactory:
+    """
+    Test the MongoDB connection with no password.
+    """
+    good_password = MongoConnectionFactory.MONGO_PASSWORD
+    MongoConnectionFactory.MONGO_PASSWORD = None
+    yield MongoConnectionFactory
+    MongoConnectionFactory.MONGO_PASSWORD = good_password
+
+
 def test_mongo_connection() -> None:
     """
     Test the MongoDB connection.
@@ -35,3 +46,13 @@ def test_mongo_connection_error(wrong_uri_connection: MongoConnectionFactory) ->
     """
     with pytest.raises(MongoConnectionError):
         wrong_uri_connection.get_mongo_client()
+
+
+def test_mongo_connection_no_password(
+    no_password_connection: MongoConnectionFactory,
+) -> None:
+    """
+    Test the MongoDB connection with no password.
+    """
+    with pytest.raises(MongoConnectionError):
+        no_password_connection.get_mongo_client()
