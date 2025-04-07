@@ -15,7 +15,7 @@ def test_mongo_habit_repository_instance(
 ) -> None:
     mongo_habit_repository = MongoHabitRepository(mock_mongo_client)
 
-    # make sure they are defined, remove ince they are implemeted and tests
+    # make sure they are defined, remove once they are implemented and tests
     mongo_habit_repository.save_habit(None)
     mongo_habit_repository.get_habit_by_id(None)
     mongo_habit_repository.get_habits_by_ids(None)
