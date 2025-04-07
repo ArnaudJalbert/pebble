@@ -1,7 +1,7 @@
 [project]
 name = "pebble"
-version = "0.6.1"
-description = "Minimalist habit tracker built using Clean Architecture."
+version = "0.6.2"
+description = "Minimalist habit tracker built with Clean Architecture."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
@@ -11,6 +11,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "mongomock>=4.3.0",
     "pytest>=8.3.5",
     "pytest-cov>=6.0.0",
     "ruff>=0.11.2",

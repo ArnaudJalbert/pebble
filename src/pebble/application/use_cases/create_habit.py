@@ -75,7 +75,9 @@ class CreateHabit:
 
     def _create_habit_category(self, dto: CreateHabitDTO) -> HabitCategory:
         # get the category by name if it exists
-        habit_category = self.habit_repository.get_category_by_name(dto.category_name)
+        habit_category = self.habit_repository.get_habit_category_by_name(
+            dto.category_name
+        )
 
         # if the category does not exist, create a new one
         if not habit_category:

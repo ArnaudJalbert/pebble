@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.2 - TAS-428- 07-04-2025
+  - Class definition for the MongoHabitRepository.
+  - Add `mongomock` dependency.
+
 ## 0.6.1 - TAS-433 - 07-04-2025
   - Add annotations to general types.
   - Change datetime by date for the habit instance entity.
