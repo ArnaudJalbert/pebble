@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import date
 from typing import Optional
 
 from pebble.application.repositories import HabitRepository
@@ -24,7 +24,7 @@ class CreateHabitInstanceDTO:
 
     habit_id: ID
     habit_collection_id: ID
-    date: datetime
+    date: date
     completed: bool
     note: Optional[str] = None
 
@@ -77,7 +77,7 @@ class CreateHabitInstance:
             )
 
         # Check if the date is in the future, which is not allowed
-        if dto.date > datetime.now():
+        if dto.date > date.today():
             raise HabitInstanceCreationError(
                 f"Cannot create a habit instance for a future date: {dto.date}."
             )

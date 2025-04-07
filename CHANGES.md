@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.1 - TAS-433 - 07-04-2025
+  - Add annotations to general types.
+  - Change datetime by date for the habit instance entity.
+
 ## 0.6.0 - TAS-427 - 06-04-2025
   - Factory to connect to Mongo and get a Mongo client.
   - Integration test for the Mongo connection.
