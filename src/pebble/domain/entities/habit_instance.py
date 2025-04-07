@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import date
 from typing import Optional
 
 from ..value_objects import ID, Note
@@ -23,7 +23,7 @@ class HabitInstance:
     """
 
     habit: Habit
-    date: datetime
+    date: date
     completed: bool
     note: Optional[Note] = None
     id: Optional[ID] = None

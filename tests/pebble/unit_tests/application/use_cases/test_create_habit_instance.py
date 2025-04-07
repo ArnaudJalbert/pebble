@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 
 import pytest
 from mock_repository import MockRepository
@@ -52,7 +52,7 @@ def test_create_habit_instance(
     habit_instance_dto = CreateHabitInstanceDTO(
         habit_id=test_habit_1.id,
         habit_collection_id=test_habit_collection_1.id,
-        date=datetime.now(),
+        date=date.today(),
         completed=True,
         note="Test note",
     )
@@ -109,7 +109,7 @@ def test_create_habit_collection_habit_not_exist(
     habit_instance_dto = CreateHabitInstanceDTO(
         habit_id=999,  # Non-existing habit ID
         habit_collection_id=1,
-        date=datetime.now(),
+        date=date.today(),
         completed=True,
         note="Test note",
     )
@@ -132,7 +132,7 @@ def test_create_habit_collection_habit_collection_not_exist(
     habit_instance_dto = CreateHabitInstanceDTO(
         habit_id=1,
         habit_collection_id=999,  # Non-existing habit collection ID
-        date=datetime.now(),
+        date=date.today(),
         completed=True,
         note="Test note",
     )
@@ -157,7 +157,7 @@ def test_create_habit_instance_future_date(
     habit_instance_dto = CreateHabitInstanceDTO(
         habit_id=test_habit_1.id,
         habit_collection_id=test_habit_collection_1.id,
-        date=datetime.now().replace(year=2100),  # Future date
+        date=date.today().replace(year=2100),  # Future date
         completed=True,
         note="Test note",
     )
