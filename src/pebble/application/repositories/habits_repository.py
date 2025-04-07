@@ -73,7 +73,9 @@ class HabitRepository(ABC):
         """
 
     @abstractmethod
-    def get_category_by_name(self, category_name: str) -> Union[HabitCategory, None]:
+    def get_habit_category_by_name(
+        self, category_name: str
+    ) -> Union[HabitCategory, None]:
         """
         Gets a category by name from the repository.
 

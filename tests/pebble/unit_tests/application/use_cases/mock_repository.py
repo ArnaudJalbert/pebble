@@ -54,7 +54,9 @@ class MockRepository(HabitRepository):
 
         return habit_category
 
-    def get_category_by_name(self, category_name: str) -> Union[HabitCategory, None]:
+    def get_habit_category_by_name(
+        self, category_name: str
+    ) -> Union[HabitCategory, None]:
         habit_category = None
         for c in self.categories:
             if c.name == category_name:
