@@ -27,7 +27,7 @@ class HabitRepository(ABC):
         """
 
     @abstractmethod
-    def get_habit_by_id(self, habit_id: ID) -> Habit:
+    def get_habit_by_id(self, habit_id: ID) -> Union[Habit, None]:
         """
         Gets a habit by identifier from the repository.
 
