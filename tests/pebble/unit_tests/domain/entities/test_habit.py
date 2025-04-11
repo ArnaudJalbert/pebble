@@ -178,13 +178,13 @@ def test_habit_inequality_without_id() -> None:
 
 def test_habit_equality_with_id() -> None:
     habit1 = Habit(
-        name="Test Habit", description="Test description", recurrence=Daily(), id=1
+        name="Test Habit", description="Test description", recurrence=Daily(), id="1"
     )
     habit2 = Habit(
         name="Another Habit",
         description="Another description",
         recurrence=Daily(),
-        id=1,
+        id="1",
     )
     assert habit1 == habit2
 

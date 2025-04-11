@@ -13,7 +13,7 @@ from pebble.domain.entities import Daily, Habit, HabitCollection
 @pytest.fixture
 def test_habit_1() -> Habit:
     return Habit(
-        id=1,
+        id="1",
         name="Test Habit 1",
         recurrence=Daily(),
     )
@@ -26,7 +26,7 @@ def test_habit_collection_1(test_habit_1: Habit) -> HabitCollection:
         habits={
             test_habit_1,
         },
-        id=2,
+        id="2",
     )
 
 
@@ -129,9 +129,10 @@ def test_create_habit_collection_habit_collection_not_exist(
     """
     Test the creation of a habit instance with a non-existing habit collection.
     """
+    habit_collection_id = "dfasfd123"
     habit_instance_dto = CreateHabitInstanceDTO(
-        habit_id=1,
-        habit_collection_id=999,  # Non-existing habit collection ID
+        habit_id="1",
+        habit_collection_id=habit_collection_id,  # Non-existing habit collection ID
         date=date.today(),
         completed=True,
         note="Test note",
@@ -141,7 +142,8 @@ def test_create_habit_collection_habit_collection_not_exist(
         CreateHabitInstance(mock_repository).execute(habit_instance_dto)
 
     assert (
-        str(error_info.value) == "Habit collection with ID 999 not found. "
+        str(error_info.value)
+        == f"Habit collection with ID {habit_collection_id} not found. "
         "The habit instance cannot be created without a Habit Collection."
     )
 
