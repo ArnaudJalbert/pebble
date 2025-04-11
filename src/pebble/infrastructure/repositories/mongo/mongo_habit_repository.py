@@ -32,7 +32,7 @@ class MongoHabitRepository(HabitRepository):
 
         # recover the habit category from the habit data
         habit_category = self.habit_category_collection.find_one(
-            {"_id": ObjectId(habit_data[HabitSerializer.DataKeys.ID])}
+            {"_id": ObjectId(habit_data[HabitSerializer.DataKeys.CATEGORY_ID])}
         )
 
         return Habit(
