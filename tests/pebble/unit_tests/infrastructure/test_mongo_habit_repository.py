@@ -1,3 +1,5 @@
+import secrets
+
 import mongomock
 import pytest
 from bson import ObjectId
@@ -28,7 +30,7 @@ def generic_habit() -> Habit:
         name="Test Category",
         description="This is a test category",
         color=Color(hex="#FF5733"),
-        id="123456",
+        id=secrets.token_hex(12),
     )
 
     return Habit(

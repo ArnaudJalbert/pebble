@@ -30,10 +30,14 @@ class MongoHabitRepository(HabitRepository):
             habit_data[HabitSerializer.DataKeys.RECURRENCE_DAYS],
         )
 
-        # recover the habit category from the habit data
-        habit_category = self.habit_category_collection.find_one(
-            {"_id": ObjectId(habit_data[HabitSerializer.DataKeys.CATEGORY_ID])}
-        )
+        category_id: str = habit_data[HabitSerializer.DataKeys.CATEGORY_ID]
+        habit_category: HabitCategory = None
+
+        if category_id:
+            # recover the habit category from the habit data
+            habit_category = self.habit_category_collection.find_one(
+                {"_id": ObjectId(habit_data[HabitSerializer.DataKeys.CATEGORY_ID])}
+            )
 
         return Habit(
             name=habit_data[HabitSerializer.DataKeys.NAME],
