@@ -6,7 +6,7 @@ from typing import ClassVar
 from pebble.domain.entities import Habit
 
 
-class HabitSerializer:
+class HabitKVSerializer:
     """
     Class to serialize a Habit object.
 
@@ -23,9 +23,9 @@ class HabitSerializer:
         _instance: The singleton instance of HabitSerializer.
     """
 
-    _instance: ClassVar[HabitSerializer] = None
+    _instance: ClassVar[HabitKVSerializer] = None
 
-    def __new__(cls) -> HabitSerializer:
+    def __new__(cls) -> HabitKVSerializer:
         """
         Create a new instance of HabitSerializer.
 

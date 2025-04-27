@@ -5,7 +5,7 @@ from pymongo import MongoClient
 
 from pebble.application.factories import RecurrenceFactory
 from pebble.application.repositories import HabitRepository
-from pebble.application.serializers import HabitSerializer
+from pebble.application.serializers import HabitKVSerializer
 from pebble.domain.entities import Habit, HabitCategory, HabitCollection, HabitInstance
 from pebble.domain.value_objects import ID, Color
 
@@ -26,26 +26,26 @@ class MongoHabitRepository(HabitRepository):
     def _habit_from_dict(self, habit_data: dict) -> Habit:
         # recover the recurrence from the habit data with the factory
         recurrence = RecurrenceFactory.get_recurrence_from_strings(
-            habit_data[HabitSerializer.DataKeys.RECURRENCE],
-            habit_data[HabitSerializer.DataKeys.RECURRENCE_DAYS],
+            habit_data[HabitKVSerializer.DataKeys.RECURRENCE],
+            habit_data[HabitKVSerializer.DataKeys.RECURRENCE_DAYS],
         )
 
-        category_id: str = habit_data[HabitSerializer.DataKeys.CATEGORY_ID]
+        category_id: str = habit_data[HabitKVSerializer.DataKeys.CATEGORY_ID]
         habit_category: HabitCategory = None
 
         if category_id:
             # recover the habit category from the habit data
             habit_category = self.habit_category_collection.find_one(
-                {"_id": ObjectId(habit_data[HabitSerializer.DataKeys.CATEGORY_ID])}
+                {"_id": ObjectId(habit_data[HabitKVSerializer.DataKeys.CATEGORY_ID])}
             )
 
         return Habit(
-            name=habit_data[HabitSerializer.DataKeys.NAME],
+            name=habit_data[HabitKVSerializer.DataKeys.NAME],
             recurrence=recurrence,
-            description=habit_data[HabitSerializer.DataKeys.DESCRIPTION],
+            description=habit_data[HabitKVSerializer.DataKeys.DESCRIPTION],
             category=habit_category,
-            color=Color(habit_data[HabitSerializer.DataKeys.COLOR_HEX]),
-            id=str(habit_data[HabitSerializer.DataKeys.ID]),
+            color=Color(habit_data[HabitKVSerializer.DataKeys.COLOR_HEX]),
+            id=str(habit_data[HabitKVSerializer.DataKeys.ID]),
         )
 
     def save_habit(self, habit: Habit) -> Habit:
@@ -69,7 +69,7 @@ class MongoHabitRepository(HabitRepository):
             raise MongoHabitExistsError(f"Habit with ID {habit.id} already exists.")
 
         # Convert the habit to a dictionary and insert it into the MongoDB collection
-        habit_dict = HabitSerializer.to_dict(habit)
+        habit_dict = HabitKVSerializer.to_dict(habit)
         result = self.habit_collection.insert_one(habit_dict)
         habit.id = str(result.inserted_id)
 

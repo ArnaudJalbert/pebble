@@ -4,7 +4,7 @@ import mongomock
 import pytest
 from bson import ObjectId
 
-from pebble.application.serializers import HabitSerializer
+from pebble.application.serializers import HabitKVSerializer
 from pebble.domain.entities import Daily, Habit, HabitCategory
 from pebble.domain.value_objects import Color
 from pebble.infrastructure.repositories import MongoHabitRepository
@@ -84,7 +84,7 @@ def test_save_habit(
     assert saved_habit_data["_id"] == ObjectId(saved_habit.id)
 
     # Check if the saved habit data matches the original habit data
-    saved_habit_dict = HabitSerializer.to_dict(saved_habit)
+    saved_habit_dict = HabitKVSerializer.to_dict(saved_habit)
     del saved_habit_data["_id"]
     del saved_habit_dict["_id"]
     assert saved_habit_data == saved_habit_dict

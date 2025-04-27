@@ -1,4 +1,4 @@
-from pebble.application.serializers import HabitSerializer
+from pebble.application.serializers import HabitKVSerializer
 from pebble.domain.entities import Daily, Habit, HabitCategory
 from pebble.domain.value_objects import Color
 
@@ -24,7 +24,7 @@ def test_habit_serializer() -> None:
     )
 
     # Serialize the habit object
-    serializer = HabitSerializer()
+    serializer = HabitKVSerializer()
     serialized_habit = serializer.to_dict(habit)
 
     # Check that the serialized data matches the expected format

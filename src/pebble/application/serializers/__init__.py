@@ -1,5 +1,5 @@
-from .habit_serializer import HabitSerializer
+from .habit_kv_serializer import HabitKVSerializer
 
 __all__ = [
-    "HabitSerializer",
+    "HabitKVSerializer",
 ]
