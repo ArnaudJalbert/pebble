@@ -65,7 +65,7 @@ class MongoHabitRepository(HabitRepository):
 
         """
         # Check if the habit already exists in the database
-        if self.get_habit_by_id(habit.id):
+        if habit.id and self.get_habit_by_id(habit.id):
             raise MongoHabitExistsError(f"Habit with ID {habit.id} already exists.")
 
         # Convert the habit to a dictionary and insert it into the MongoDB collection

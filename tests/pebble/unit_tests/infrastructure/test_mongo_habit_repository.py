@@ -114,6 +114,16 @@ def test_get_habit_by_id(
 
     assert fetched_habit is not None
 
+def test_get_habit_by_id_data_not_found(
+    mock_mongo_habit_repository: MongoHabitRepository,
+    generic_habit: Habit,
+    generic_habit_category: HabitCategory,
+) -> None:
+
+    fetched_habit: Habit = mock_mongo_habit_repository.get_habit_by_id(generic_habit.id)
+
+    assert fetched_habit is None
+
 
 def test_get_habits_by_ids(
     mock_mongo_habit_repository: MongoHabitRepository,
