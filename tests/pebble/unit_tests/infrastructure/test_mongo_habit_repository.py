@@ -1,5 +1,3 @@
-import secrets
-
 import mongomock
 import pytest
 from bson import ObjectId
@@ -9,6 +7,9 @@ from pebble.domain.entities import Daily, Habit, HabitCategory
 from pebble.domain.value_objects import Color
 from pebble.infrastructure.repositories import MongoHabitRepository
 from pebble.infrastructure.repositories.mongo import MongoHabitExistsError
+from pebble.infrastructure.repositories.mongo.mongo_exceptions import (
+    MongoHabitCategoryExistsError,
+)
 
 
 @pytest.fixture
@@ -30,7 +31,6 @@ def generic_habit() -> Habit:
         name="Test Category",
         description="This is a test category",
         color=Color(hex="#FF5733"),
-        id=secrets.token_hex(12),
     )
 
     return Habit(
@@ -57,7 +57,6 @@ def test_mongo_habit_repository_instance(
     mongo_habit_repository = MongoHabitRepository(mock_mongo_client)
 
     # make sure they are defined, remove once they are implemented and tested
-    mongo_habit_repository.save_habit_category(None)
     mongo_habit_repository.get_habit_category_by_name(None)
     mongo_habit_repository.save_habit_collection(None)
     mongo_habit_repository.update_habit_collection(None)
@@ -107,19 +106,25 @@ def test_get_habit_by_id(
     generic_habit: Habit,
     generic_habit_category: HabitCategory,
 ) -> None:
+    habit_category = mock_mongo_habit_repository.save_habit_category(
+        generic_habit_category
+    )
+    generic_habit.category = habit_category
     mock_mongo_habit_repository.save_habit(generic_habit)
-    mock_mongo_habit_repository.save_habit_category(generic_habit_category)
 
     fetched_habit: Habit = mock_mongo_habit_repository.get_habit_by_id(generic_habit.id)
 
     assert fetched_habit is not None
+    assert generic_habit.id == fetched_habit.id
+    assert generic_habit.category == fetched_habit.category
+
 
 def test_get_habit_by_id_data_not_found(
     mock_mongo_habit_repository: MongoHabitRepository,
     generic_habit: Habit,
     generic_habit_category: HabitCategory,
 ) -> None:
-
+    mock_mongo_habit_repository.save_habit_category(generic_habit_category)
     fetched_habit: Habit = mock_mongo_habit_repository.get_habit_by_id(generic_habit.id)
 
     assert fetched_habit is None
@@ -148,3 +153,52 @@ def test_get_habits_by_ids(
     assert len(habits) == 2
     assert generic_habit in habits
     assert other_habit in habits
+
+
+def test_save_habit_category(
+    mock_mongo_habit_repository: MongoHabitRepository,
+    generic_habit_category: HabitCategory,
+) -> None:
+    # Save the habit category using the repository
+    saved_habit_category = mock_mongo_habit_repository.save_habit_category(
+        generic_habit_category
+    )
+
+    assert saved_habit_category is not None
+    assert saved_habit_category.id is not None
+    assert saved_habit_category.name == generic_habit_category.name
+    assert saved_habit_category.description == generic_habit_category.description
+    assert saved_habit_category.color == generic_habit_category.color
+
+
+def test_save_habit_category_already_exists(
+    mock_mongo_habit_repository: MongoHabitRepository,
+    generic_habit_category: HabitCategory,
+) -> None:
+    # Save the habit category using the repository
+    mock_mongo_habit_repository.save_habit_category(generic_habit_category)
+
+    # Attempt to save the same habit category again
+    with pytest.raises(MongoHabitCategoryExistsError):
+        mock_mongo_habit_repository.save_habit_category(generic_habit_category)
+
+
+def test_get_habit_category_by_name(
+    mock_mongo_habit_repository: MongoHabitRepository,
+    generic_habit_category: HabitCategory,
+) -> None:
+    # Save the habit category using the repository
+    saved_habit_category = mock_mongo_habit_repository.save_habit_category(
+        generic_habit_category
+    )
+
+    # Get the habit category by name
+    fetched_habit_category = mock_mongo_habit_repository.get_habit_category_by_name(
+        saved_habit_category.name
+    )
+
+    assert fetched_habit_category is not None
+    assert fetched_habit_category.id == saved_habit_category.id
+    assert fetched_habit_category.name == saved_habit_category.name
+    assert fetched_habit_category.description == saved_habit_category.description
+    assert fetched_habit_category.color == saved_habit_category.color

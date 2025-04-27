@@ -5,11 +5,11 @@ from pymongo import MongoClient
 
 from pebble.application.factories import RecurrenceFactory
 from pebble.application.repositories import HabitRepository
-from pebble.application.serializers import HabitKVSerializer
+from pebble.application.serializers import HabitCategoryKVSerializer, HabitKVSerializer
 from pebble.domain.entities import Habit, HabitCategory, HabitCollection, HabitInstance
 from pebble.domain.value_objects import ID, Color
 
-from .mongo_exceptions import MongoHabitExistsError
+from .mongo_exceptions import MongoHabitCategoryExistsError, MongoHabitExistsError
 
 
 class MongoHabitRepository(HabitRepository):
@@ -35,9 +35,10 @@ class MongoHabitRepository(HabitRepository):
 
         if category_id:
             # recover the habit category from the habit data
-            habit_category = self.habit_category_collection.find_one(
+            habit_category_data = self.habit_category_collection.find_one(
                 {"_id": ObjectId(habit_data[HabitKVSerializer.DataKeys.CATEGORY_ID])}
             )
+            habit_category = HabitCategoryKVSerializer.from_dict(habit_category_data)
 
         return Habit(
             name=habit_data[HabitKVSerializer.DataKeys.NAME],
@@ -121,12 +122,55 @@ class MongoHabitRepository(HabitRepository):
         return habits
 
     def save_habit_category(self, habit_category: HabitCategory) -> HabitCategory:
-        pass
+        """
+        Saves a new habit category in the repository.
+        Args:
+            habit_category: The habit category to be saved.
+
+        Returns:
+            The saved habit category, with the identifier.
+
+        Raises:
+            MongoHabitCategoryExistsError: If the habit category already exists.
+        """
+        # Check if the habit category already exists in the database
+        if self.get_habit_category_by_name(habit_category.name):
+            raise MongoHabitCategoryExistsError(
+                f"Habit category with name {habit_category.name} already exists."
+            )
+
+        # Convert the habit category to a dictionary and
+        # insert it into the MongoDB collection
+        habit_category_dict = HabitCategoryKVSerializer.to_dict(habit_category)
+        result = self.habit_category_collection.insert_one(habit_category_dict)
+        habit_category.id = str(result.inserted_id)
+
+        return habit_category
 
     def get_habit_category_by_name(
         self, category_name: str
     ) -> Union[HabitCategory, None]:
-        pass
+        """
+        Gets a habit category by name from the repository.
+
+        Retrieves a habit category from the MongoDB collection
+        using the provided name.
+
+        Args:
+            category_name: The name of the habit category to get.
+
+        Returns:
+            The habit category with the provided name, if found, else None.
+        """
+        # Retrieve the habit category from the MongoDB collection
+        data = self.habit_category_collection.find_one({"name": category_name})
+
+        # If the habit category is not found, return None
+        if not data:
+            return None
+
+        # Convert the habit category data to a HabitCategory object
+        return HabitCategoryKVSerializer.from_dict(data)
 
     def save_habit_collection(
         self, habit_collection: HabitCollection

@@ -3,10 +3,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import ClassVar
 
+from pebble.application.serializers.kv_serializer import KVSerializer
 from pebble.domain.entities import Habit
 
 
-class HabitKVSerializer:
+class HabitKVSerializer(KVSerializer):
     """
     Class to serialize a Habit object.
 
@@ -16,29 +17,9 @@ class HabitKVSerializer:
     to a dictionary representation.
 
     Converts the Habit object to a dictionary representation.
-
-    Implemented as a singleton to ensure that only one instance exists.
-
-    Attributes:
-        _instance: The singleton instance of HabitSerializer.
     """
 
     _instance: ClassVar[HabitKVSerializer] = None
-
-    def __new__(cls) -> HabitKVSerializer:
-        """
-        Create a new instance of HabitSerializer.
-
-        If an instance already exists, return the existing instance.
-
-        This is to ensure that the HabitSerializer is a singleton.
-
-        Returns:
-            The singleton instance of HabitSerializer.
-        """
-        if not cls._instance:
-            cls._instance = super().__new__(cls)
-        return cls._instance
 
     @dataclass(frozen=True)
     class DataKeys:
@@ -87,6 +68,6 @@ class HabitKVSerializer:
         }
 
         if habit.id:
-            data["_id"] = habit.id
+            data[cls.DataKeys.ID] = habit.id
 
         return data
