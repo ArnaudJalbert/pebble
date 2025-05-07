@@ -3,12 +3,13 @@ import pytest
 from bson import ObjectId
 
 from pebble.application.serializers import HabitKVSerializer
-from pebble.domain.entities import Daily, Habit, HabitCategory
+from pebble.domain.entities import Daily, Habit, HabitCategory, HabitCollection
 from pebble.domain.value_objects import Color
 from pebble.infrastructure.repositories import MongoHabitRepository
 from pebble.infrastructure.repositories.mongo import MongoHabitExistsError
 from pebble.infrastructure.repositories.mongo.mongo_exceptions import (
     MongoHabitCategoryExistsError,
+    MongoHabitCollectionExistsError,
 )
 
 
@@ -51,6 +52,14 @@ def generic_habit_category() -> HabitCategory:
     )
 
 
+@pytest.fixture
+def generic_habit_collection() -> HabitCategory:
+    return HabitCollection(
+        name="Test Collection",
+        description="This is a test collection",
+    )
+
+
 def test_mongo_habit_repository_instance(
     mock_mongo_client: mongomock.MongoClient,
 ) -> None:
@@ -58,7 +67,6 @@ def test_mongo_habit_repository_instance(
 
     # make sure they are defined, remove once they are implemented and tested
     mongo_habit_repository.get_habit_category_by_name(None)
-    mongo_habit_repository.save_habit_collection(None)
     mongo_habit_repository.update_habit_collection(None)
     mongo_habit_repository.get_habit_collection_by_id(None)
     mongo_habit_repository.save_habit_instance(None)
@@ -75,7 +83,7 @@ def test_save_habit(
     assert saved_habit.id is not None
 
     # Get the saved habit from the database
-    saved_habit_data = mock_mongo_habit_repository.habit_collection.find_one(
+    saved_habit_data = mock_mongo_habit_repository.habits_collection.find_one(
         {"_id": ObjectId(saved_habit.id)}
     )
 
@@ -202,3 +210,41 @@ def test_get_habit_category_by_name(
     assert fetched_habit_category.name == saved_habit_category.name
     assert fetched_habit_category.description == saved_habit_category.description
     assert fetched_habit_category.color == saved_habit_category.color
+
+
+def test_save_habit_collection(
+    mock_mongo_habit_repository: MongoHabitRepository,
+    generic_habit_collection: HabitCollection,
+    generic_habit: Habit,
+) -> None:
+    # Save the habit before saving the collection
+    mock_mongo_habit_repository.save_habit(generic_habit)
+    generic_habit_collection.add_habit(generic_habit)
+    # Save the habit collection using the repository
+    saved_habit_collection = mock_mongo_habit_repository.save_habit_collection(
+        generic_habit_collection
+    )
+
+    assert saved_habit_collection is not None
+    assert saved_habit_collection.id is not None
+    assert saved_habit_collection.name == generic_habit_collection.name
+    assert saved_habit_collection.description == generic_habit_collection.description
+    assert len(saved_habit_collection.habits) == 1
+
+
+def test_save_habit_collection_already_exists(
+    mock_mongo_habit_repository: MongoHabitRepository,
+    generic_habit_collection: HabitCollection,
+    generic_habit: Habit,
+) -> None:
+    # Save the habit before saving the collection
+    mock_mongo_habit_repository.save_habit(generic_habit)
+    generic_habit_collection.add_habit(generic_habit)
+    # Save the habit collection using the repository
+    fetched_habit_collection = mock_mongo_habit_repository.save_habit_collection(
+        generic_habit_collection
+    )
+
+    # Attempt to save the same habit collection again
+    with pytest.raises(MongoHabitCollectionExistsError):
+        mock_mongo_habit_repository.save_habit_collection(fetched_habit_collection)

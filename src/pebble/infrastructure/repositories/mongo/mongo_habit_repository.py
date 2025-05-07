@@ -5,23 +5,35 @@ from pymongo import MongoClient
 
 from pebble.application.factories import RecurrenceFactory
 from pebble.application.repositories import HabitRepository
-from pebble.application.serializers import HabitCategoryKVSerializer, HabitKVSerializer
+from pebble.application.serializers import (
+    HabitCategoryKVSerializer,
+    HabitCollectionsKVSerializer,
+    HabitKVSerializer,
+)
 from pebble.domain.entities import Habit, HabitCategory, HabitCollection, HabitInstance
 from pebble.domain.value_objects import ID, Color
 
-from .mongo_exceptions import MongoHabitCategoryExistsError, MongoHabitExistsError
+from .mongo_exceptions import (
+    MongoHabitCategoryExistsError,
+    MongoHabitCollectionExistsError,
+    MongoHabitExistsError,
+)
 
 
 class MongoHabitRepository(HabitRepository):
     DATABASE_NAME = "pebble"
-    HABIT_COLLECTION_NAME = "habits"
+    HABITS_COLLECTION_NAME = "habits"
     HABIT_CATEGORIES_COLLECTION_NAME = "habit_categories"
+    HABIT_COLLECTIONS_COLLECTION_NAME = "habit_collections"
 
     def __init__(self, mongo_client: MongoClient) -> None:
         self.mongo_client = mongo_client
         self.db = mongo_client[self.DATABASE_NAME]
-        self.habit_collection = self.db[self.HABIT_COLLECTION_NAME]
+        self.habits_collection = self.db[self.HABITS_COLLECTION_NAME]
         self.habit_category_collection = self.db[self.HABIT_CATEGORIES_COLLECTION_NAME]
+        self.habit_collections_collection = self.db[
+            self.HABIT_COLLECTIONS_COLLECTION_NAME
+        ]
 
     def _habit_from_dict(self, habit_data: dict) -> Habit:
         # recover the recurrence from the habit data with the factory
@@ -71,7 +83,7 @@ class MongoHabitRepository(HabitRepository):
 
         # Convert the habit to a dictionary and insert it into the MongoDB collection
         habit_dict = HabitKVSerializer.to_dict(habit)
-        result = self.habit_collection.insert_one(habit_dict)
+        result = self.habits_collection.insert_one(habit_dict)
         habit.id = str(result.inserted_id)
 
         return habit
@@ -89,7 +101,7 @@ class MongoHabitRepository(HabitRepository):
         Returns:
             The habit with the provided identifier, if found, else None.
         """
-        habit_data = self.habit_collection.find_one({"_id": ObjectId(habit_id)})
+        habit_data = self.habits_collection.find_one({"_id": ObjectId(habit_id)})
 
         # If the habit is not found, return None
         if not habit_data:
@@ -110,7 +122,7 @@ class MongoHabitRepository(HabitRepository):
         Returns:
             The set of habits with the provided identifiers.
         """
-        habits_data = self.habit_collection.find(
+        habits_data = self.habits_collection.find(
             {"_id": {"$in": [ObjectId(habit_id) for habit_id in habits_ids]}}
         )
 
@@ -175,15 +187,128 @@ class MongoHabitRepository(HabitRepository):
     def save_habit_collection(
         self, habit_collection: HabitCollection
     ) -> HabitCollection:
-        pass
+        """
+        Saves a new habit collection in the repository.
+
+        Saves a new habit collection in the MongoDB collection
+        and assigns a unique identifier to the habit collection.
+
+        Args:
+            habit_collection: The habit collection to be saved.
+
+        Returns:
+            The saved habit collection, with the identifier.
+        """
+        # Check if the habit collection already exists in the database
+        if self.get_habit_collection_by_id(habit_collection.id):
+            raise MongoHabitCollectionExistsError(
+                f"Habit collection with ID {habit_collection.id} already exists."
+            )
+
+        # Convert the habit collection to a dictionary and
+        # insert it into the MongoDB collection.
+        data = HabitCollectionsKVSerializer.to_dict(habit_collection)
+
+        result = self.habit_collections_collection.insert_one(data)
+
+        habit_collection.id = str(result.inserted_id)
+
+        return habit_collection
 
     def update_habit_collection(
         self, habit_collection: HabitCollection
     ) -> HabitCollection:
         pass
 
-    def get_habit_collection_by_id(self, habit_collection_id: ID) -> HabitCollection:
-        pass
+    def get_habit_collection_by_id(
+        self, habit_collection_id: ID
+    ) -> Union[HabitCollection, None]:
+        """
+        Gets a habit collection by identifier from the repository.
+
+        Retrieves a habit collection from the MongoDB collection
+        using the provided identifier.
+
+        Args:
+            habit_collection_id: The identifier of the habit collection to get.
+
+        Returns:
+            The habit collection with the provided identifier, if found, else None.
+        """
+        habit_collection_data = self.habit_collections_collection.find_one(
+            {"_id": ObjectId(habit_collection_id)}
+        )
+
+        # If the habit collection is not found, return None
+        if not habit_collection_data:
+            return None
+
+        # Recover the habits and habit instances from the habit collection data
+        habits_data = self.habits_collection.find(
+            {
+                "_id": {
+                    "$in": [
+                        ObjectId(habit_id)
+                        for habit_id in habit_collection_data[
+                            HabitCollectionsKVSerializer.DataKeys.HABITS
+                        ]
+                    ]
+                }
+            }
+        )
+
+        habits = set()
+
+        for habit_data in habits_data:
+            habits.add(self._habit_from_dict(habit_data))
+
+        habit_instances_data = self.habits_collection.find(
+            {
+                "_id": {
+                    "$in": [
+                        ObjectId(habit_id)
+                        for habit_id in habit_collection_data[
+                            HabitCollectionsKVSerializer.DataKeys.HABITS_INSTANCES
+                        ]
+                    ]
+                }
+            }
+        )
+
+        habits_instances = set()
+
+        # TODO -> Add HabitInstance from dict once the logic is implemented
+
+        return HabitCollectionsKVSerializer.from_dict(
+            habit_collection_data, habits, habit_instances_data
+        )
 
     def save_habit_instance(self, habit_instance: HabitInstance) -> HabitInstance:
         pass
+
+    def get_habit_instance_by_id(
+        self, habit_instance_id: ID
+    ) -> Union[HabitInstance, None]:
+        """
+        Gets a habit instance by identifier from the repository.
+
+        Retrieves a habit instance from the MongoDB collection
+        using the provided identifier.
+
+        Args:
+            habit_instance_id: The identifier of the habit instance to get.
+
+        Returns:
+            The habit instance with the provided identifier, if found, else None.
+        """
+        habit_instance_data = self.habits_collection.find_one(
+            {"_id": ObjectId(habit_instance_id)}
+        )
+
+        # If the habit instance is not found, return None
+        if not habit_instance_data:
+            return None
+
+        # TODO -> Add HabitInstance from dict once the logic is implemented
+
+        return None
