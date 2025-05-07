@@ -275,8 +275,6 @@ class MongoHabitRepository(HabitRepository):
             }
         )
 
-        habits_instances = set()
-
         # TODO -> Add HabitInstance from dict once the logic is implemented
 
         return HabitCollectionsKVSerializer.from_dict(
