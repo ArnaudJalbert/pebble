@@ -1,9 +1,17 @@
+import datetime
+
 import mongomock
 import pytest
 from bson import ObjectId
 
 from pebble.application.serializers import HabitKVSerializer
-from pebble.domain.entities import Daily, Habit, HabitCategory, HabitCollection
+from pebble.domain.entities import (
+    Daily,
+    Habit,
+    HabitCategory,
+    HabitCollection,
+    HabitInstance,
+)
 from pebble.domain.value_objects import Color
 from pebble.infrastructure.repositories import MongoHabitRepository
 from pebble.infrastructure.repositories.mongo import MongoHabitExistsError
@@ -69,7 +77,6 @@ def test_mongo_habit_repository_instance(
     mongo_habit_repository.get_habit_category_by_name(None)
     mongo_habit_repository.update_habit_collection(None)
     mongo_habit_repository.get_habit_collection_by_id(None)
-    mongo_habit_repository.save_habit_instance(None)
 
 
 def test_save_habit(
@@ -248,3 +255,65 @@ def test_save_habit_collection_already_exists(
     # Attempt to save the same habit collection again
     with pytest.raises(MongoHabitCollectionExistsError):
         mock_mongo_habit_repository.save_habit_collection(fetched_habit_collection)
+
+
+def test_save_habit_instance(
+    mock_mongo_habit_repository: MongoHabitRepository,
+    generic_habit: Habit,
+) -> None:
+    # Save the habit before saving the instance
+    saved_habit = mock_mongo_habit_repository.save_habit(generic_habit)
+
+    # Create a habit instance
+    habit_instance = HabitInstance(
+        habit=saved_habit,
+        date=datetime.date(2023, 10, 1),
+        completed=True,
+        note="Test note",
+    )
+
+    # Save the habit instance using the repository
+    saved_habit_instance = mock_mongo_habit_repository.save_habit_instance(
+        habit_instance
+    )
+
+    assert saved_habit_instance is not None
+
+    assert saved_habit_instance.id is not None
+    assert saved_habit_instance.habit.id == saved_habit.id
+    assert saved_habit_instance.date == habit_instance.date
+    assert saved_habit_instance.completed == habit_instance.completed
+    assert saved_habit_instance.note == habit_instance.note
+
+
+def test_get_habit_instance_by_id(
+    mock_mongo_habit_repository: MongoHabitRepository,
+    generic_habit: Habit,
+) -> None:
+    # Save the habit before saving the instance
+    saved_habit = mock_mongo_habit_repository.save_habit(generic_habit)
+
+    # Create a habit instance
+    habit_instance = HabitInstance(
+        habit=saved_habit,
+        date=datetime.date(2023, 10, 1),
+        completed=True,
+        note="Test note",
+    )
+
+    # Save the habit instance using the repository
+    saved_habit_instance = mock_mongo_habit_repository.save_habit_instance(
+        habit_instance
+    )
+
+    # Get the habit instance by ID
+    fetched_habit_instance = mock_mongo_habit_repository.get_habit_instance_by_id(
+        saved_habit_instance.id
+    )
+
+    assert fetched_habit_instance is not None
+    assert fetched_habit_instance.id == saved_habit_instance.id
+    assert fetched_habit_instance.habit.id == saved_habit.id
+    assert fetched_habit_instance.date == habit_instance.date
+    assert fetched_habit_instance.completed == habit_instance.completed
+    assert fetched_habit_instance.note == habit_instance.note

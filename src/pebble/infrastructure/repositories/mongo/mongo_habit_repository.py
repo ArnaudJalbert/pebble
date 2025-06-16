@@ -8,6 +8,7 @@ from pebble.application.repositories import HabitRepository
 from pebble.application.serializers import (
     HabitCategoryKVSerializer,
     HabitCollectionsKVSerializer,
+    HabitInstanceKVSerializer,
     HabitKVSerializer,
 )
 from pebble.domain.entities import Habit, HabitCategory, HabitCollection, HabitInstance
@@ -282,7 +283,30 @@ class MongoHabitRepository(HabitRepository):
         )
 
     def save_habit_instance(self, habit_instance: HabitInstance) -> HabitInstance:
-        pass
+        """
+        Saves a new habit instance in the repository.
+
+        Saves a new habit instance in the MongoDB collection
+        and assigns a unique identifier to the habit instance.
+
+        Args:
+            habit_instance: The habit instance to be saved.
+
+        Returns:
+            The saved habit instance, with the identifier.
+        """
+        # Check if the habit instance already exists in the database
+        if habit_instance.id and self.get_habit_instance_by_id(habit_instance.id):
+            raise MongoHabitExistsError(
+                f"Habit instance with ID {habit_instance.id} already exists."
+            )
+
+        # Convert the habit instance to a dictionary and insert it into the MongoDB collection
+        habit_instance_dict = HabitInstanceKVSerializer.to_dict(habit_instance)
+        result = self.habits_collection.insert_one(habit_instance_dict)
+        habit_instance.id = str(result.inserted_id)
+
+        return habit_instance
 
     def get_habit_instance_by_id(
         self, habit_instance_id: ID

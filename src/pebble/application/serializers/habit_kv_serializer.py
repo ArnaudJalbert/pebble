@@ -19,8 +19,6 @@ class HabitKVSerializer(KVSerializer):
     Converts the Habit object to a dictionary representation.
     """
 
-    _instance: ClassVar[HabitKVSerializer] = None
-
     @dataclass(frozen=True)
     class DataKeys:
         """
