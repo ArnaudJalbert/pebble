@@ -301,7 +301,8 @@ class MongoHabitRepository(HabitRepository):
                 f"Habit instance with ID {habit_instance.id} already exists."
             )
 
-        # Convert the habit instance to a dictionary and insert it into the MongoDB collection
+        # Convert the habit instance to a dictionary and
+        # insert it into the MongoDB collection
         habit_instance_dict = HabitInstanceKVSerializer.to_dict(habit_instance)
         result = self.habits_collection.insert_one(habit_instance_dict)
         habit_instance.id = str(result.inserted_id)

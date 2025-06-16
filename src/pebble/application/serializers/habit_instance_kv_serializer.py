@@ -11,7 +11,8 @@ class HabitInstanceKVSerializer(KVSerializer):
     """
     Class to serialize a HabitInstance object.
 
-    Contains the class DataKeys which defines the keys used to access the habit instance data.
+    Contains the class DataKeys which defines
+    the keys used to access the habit instance data.
 
     The to_dict method is used to convert the HabitInstance object
     to a dictionary representation.
