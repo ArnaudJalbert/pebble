@@ -26,6 +26,7 @@ class MongoHabitRepository(HabitRepository):
     HABITS_COLLECTION_NAME = "habits"
     HABIT_CATEGORIES_COLLECTION_NAME = "habit_categories"
     HABIT_COLLECTIONS_COLLECTION_NAME = "habit_collections"
+    HABIT_INSTANCE_COLLECTION_NAME = "habit_instances"
 
     def __init__(self, mongo_client: MongoClient) -> None:
         self.mongo_client = mongo_client
@@ -35,6 +36,7 @@ class MongoHabitRepository(HabitRepository):
         self.habit_collections_collection = self.db[
             self.HABIT_COLLECTIONS_COLLECTION_NAME
         ]
+        self.habit_instances_collection = self.db[self.HABIT_INSTANCE_COLLECTION_NAME]
 
     def _habit_from_dict(self, habit_data: dict) -> Habit:
         # recover the recurrence from the habit data with the factory
@@ -304,7 +306,7 @@ class MongoHabitRepository(HabitRepository):
         # Convert the habit instance to a dictionary and
         # insert it into the MongoDB collection
         habit_instance_dict = HabitInstanceKVSerializer.to_dict(habit_instance)
-        result = self.habits_collection.insert_one(habit_instance_dict)
+        result = self.habit_instances_collection.insert_one(habit_instance_dict)
         habit_instance.id = str(result.inserted_id)
 
         return habit_instance
@@ -324,7 +326,7 @@ class MongoHabitRepository(HabitRepository):
         Returns:
             The habit instance with the provided identifier, if found, else None.
         """
-        habit_instance_data = self.habits_collection.find_one(
+        habit_instance_data = self.habit_instances_collection.find_one(
             {"_id": ObjectId(habit_instance_id)}
         )
 
