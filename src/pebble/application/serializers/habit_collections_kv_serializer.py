@@ -97,10 +97,11 @@ class HabitCollectionsKVSerializer(KVSerializer):
         Returns:
             The deserialized HabitCollection object.
         """
+        habit_collection_id = habit_collection_data.get(cls.DataKeys.ID)
         return HabitCollection(
             name=habit_collection_data[cls.DataKeys.NAME],
             description=habit_collection_data.get(cls.DataKeys.DESCRIPTION),
             habits=habits,
             habits_instance=habits_instances,
-            id=habit_collection_data.get(cls.DataKeys.ID),
+            id=str(habit_collection_id) if habit_collection_id else None,
         )

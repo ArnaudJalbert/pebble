@@ -317,3 +317,34 @@ def test_get_habit_instance_by_id(
     assert fetched_habit_instance.date == habit_instance.date
     assert fetched_habit_instance.completed == habit_instance.completed
     assert fetched_habit_instance.note == habit_instance.note
+
+
+def test_get_habit_collection_by_id(
+    mock_mongo_habit_repository: MongoHabitRepository,
+    generic_habit_collection: HabitCollection,
+    generic_habit: Habit,
+) -> None:
+    # Save the habit before saving the collection
+    saved_habit = mock_mongo_habit_repository.save_habit(generic_habit)
+    generic_habit_collection.add_habit(saved_habit)
+
+    # Save the habit collection using the repository
+    saved_habit_collection = mock_mongo_habit_repository.save_habit_collection(
+        generic_habit_collection
+    )
+
+    # Fetch the habit collection by ID
+    fetched_habit_collection = mock_mongo_habit_repository.get_habit_collection_by_id(
+        saved_habit_collection.id
+    )
+
+    assert fetched_habit_collection is not None
+    assert fetched_habit_collection.id == saved_habit_collection.id
+    assert fetched_habit_collection.name == saved_habit_collection.name
+    assert fetched_habit_collection.description == saved_habit_collection.description
+    assert len(fetched_habit_collection.habits) == len(saved_habit_collection.habits)
+    assert fetched_habit_collection.habits == saved_habit_collection.habits
+    assert (
+        fetched_habit_collection.habits_instance
+        == saved_habit_collection.habits_instance
+    )
