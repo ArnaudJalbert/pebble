@@ -332,6 +332,17 @@ class MongoHabitRepository(HabitRepository):
         if not habit_instance_data:
             return None
 
-        # TODO -> Add HabitInstance from dict once the logic is implemented
+        habit = self.get_habit_by_id(
+            habit_instance_data[HabitInstanceKVSerializer.DataKeys.HABIT_ID]
+        )
 
-        return None
+        if not habit:
+            raise MongoHabitExistsError(
+                f"Error when trying to retrieve the habit instance "
+                f"{habit_instance_data[HabitInstanceKVSerializer.DataKeys.ID]}. "
+                f"Habit with ID "
+                f"{habit_instance_data[HabitInstanceKVSerializer.DataKeys.ID]} "
+                f"does not exist."
+            )
+
+        return HabitInstanceKVSerializer.from_dict(habit_instance_data, habit)

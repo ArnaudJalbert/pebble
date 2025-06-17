@@ -1,10 +1,11 @@
 from __future__ import annotations
 
+import datetime
 from dataclasses import dataclass
 from typing import ClassVar
 
 from pebble.application.serializers.kv_serializer import KVSerializer
-from pebble.domain.entities import HabitInstance
+from pebble.domain.entities import Habit, HabitInstance
 
 
 class HabitInstanceKVSerializer(KVSerializer):
@@ -56,3 +57,24 @@ class HabitInstanceKVSerializer(KVSerializer):
             data[cls.DataKeys.ID] = str(habit_instance.id)
 
         return data
+
+    @classmethod
+    def from_dict(cls, data: dict, habit: Habit) -> HabitInstance:
+        """
+        Converts a dictionary representation back to a HabitInstance object.
+
+        Args:
+            data: The dictionary representation of the habit instance.
+            habit: The Habit object associated with this instance.
+
+        Returns:
+            A HabitInstance object created from the dictionary data.
+        """
+        habit_instance_id = data.get(cls.DataKeys.ID)
+        return HabitInstance(
+            id=str(habit_instance_id) if habit_instance_id else None,
+            habit=habit,
+            date=datetime.date.fromisoformat(data[cls.DataKeys.DATE]),
+            completed=data[cls.DataKeys.COMPLETED],
+            note=data.get(cls.DataKeys.NOTE, ""),
+        )
