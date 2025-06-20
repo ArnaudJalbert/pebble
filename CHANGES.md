@@ -1,8 +1,8 @@
 # Changelog
 
 ## 0.7.0 - TAS-429 - 11-05-2025:
-  - Implementation of save_habit, get_habit_by_id, and get_habits_by_ids.
-  - Add a serializer for the habit.
+  - Concrete implementation of the MongoHabitRepository.
+  - Add a serializers for the entities.
   - Tests for all the implementation of repository and serializer.
 
 ## 0.6.2 - TAS-428- 07-04-2025
