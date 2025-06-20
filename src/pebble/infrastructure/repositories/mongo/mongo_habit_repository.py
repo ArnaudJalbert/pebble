@@ -350,7 +350,7 @@ class MongoHabitRepository(HabitRepository):
                 f"Error when trying to retrieve the habit instance "
                 f"{habit_instance_data[HabitInstanceKVSerializer.DataKeys.ID]}. "
                 f"Habit with ID "
-                f"{habit_instance_data[HabitInstanceKVSerializer.DataKeys.ID]} "
+                f"{habit_instance_data[HabitInstanceKVSerializer.DataKeys.HABIT_ID]} "
                 f"does not exist."
             )
 
