@@ -1,12 +1,15 @@
 [project]
 name = "pebble"
-version = "0.7.0"
+version = "0.8.0"
 description = "Minimalist habit tracker built with Clean Architecture."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "dotenv>=0.9.9",
+    "fastapi>=0.115.13",
     "pymongo>=4.11.3",
+    "toml>=0.10.2",
+    "uvicorn>=0.34.3",
 ]
 
 [dependency-groups]

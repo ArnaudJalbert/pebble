@@ -1,5 +1,12 @@
 # Changelog
 
+
+## 0.8.0 - TAS-532 - 20-06-2025
+  - Add base API setup using FastAPI.
+  - Add `FastAPI` dependency.
+  - Add `TOML` dependency.
+  - Add `uvicorn` dependency for running the FastAPI app.
+
 ## 0.7.0 - TAS-429 - 11-05-2025:
   - Concrete implementation of the MongoHabitRepository.
   - Add a serializers for the entities.
