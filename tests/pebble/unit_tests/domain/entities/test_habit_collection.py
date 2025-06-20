@@ -1,4 +1,3 @@
-# Python
 import pytest
 
 from pebble.domain.entities.habit import Habit

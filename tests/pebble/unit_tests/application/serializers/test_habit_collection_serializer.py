@@ -1,5 +1,3 @@
-# Python
-
 from pebble.application.serializers.habit_collections_kv_serializer import (
     HabitCollectionsKVSerializer,
 )

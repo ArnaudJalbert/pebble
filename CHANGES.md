@@ -4,6 +4,7 @@
   - Concrete implementation of the MongoHabitRepository.
   - Add a serializers for the entities.
   - Tests for all the implementation of repository and serializer.
+  - Renamed the `infrastructure` module to `interface_adapters`.
 
 ## 0.6.2 - TAS-428- 07-04-2025
   - Class definition for the MongoHabitRepository.

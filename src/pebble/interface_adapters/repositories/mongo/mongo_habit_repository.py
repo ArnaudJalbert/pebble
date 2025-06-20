@@ -220,7 +220,6 @@ class MongoHabitRepository(HabitRepository):
 
         return habit_collection
 
-    # Python
     def update_habit_collection(
         self, habit_collection: HabitCollection
     ) -> HabitCollection:
