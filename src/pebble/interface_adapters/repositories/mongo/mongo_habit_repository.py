@@ -219,10 +219,47 @@ class MongoHabitRepository(HabitRepository):
 
         return habit_collection
 
+    # Python
     def update_habit_collection(
         self, habit_collection: HabitCollection
     ) -> HabitCollection:
-        pass
+        """
+        Updates an existing habit collection in the repository.
+
+        Args:
+            habit_collection: The habit collection to be updated.
+
+        Returns:
+            The updated habit collection.
+
+        Raises:
+            ValueError: If the habit collection does not have an ID.
+            MongoHabitCollectionExistsError: If the habit collection does not exist.
+        """
+        # Check if the habit collection has an ID
+        if not habit_collection.id:
+            raise ValueError("Habit collection must have an ID to be updated.")
+
+        # Check if the habit collection exists in the database
+        existing_collection = self.get_habit_collection_by_id(habit_collection.id)
+        if not existing_collection:
+            raise MongoHabitCollectionExistsError(
+                f"Habit collection with ID {habit_collection.id} does not exist."
+            )
+
+        # Convert the habit collection to a dictionary
+        habit_collection_dict = HabitCollectionsKVSerializer.to_dict(habit_collection)
+
+        # Remove the `_id` field from the dictionary to avoid altering it
+        habit_collection_dict.pop("_id", None)
+
+        # Update the habit collection in the MongoDB collection
+        self.habit_collections_collection.update_one(
+            {"_id": ObjectId(habit_collection.id)},
+            {"$set": habit_collection_dict},
+        )
+
+        return habit_collection
 
     def get_habit_collection_by_id(
         self, habit_collection_id: ID

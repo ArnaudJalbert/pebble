@@ -69,17 +69,6 @@ def generic_habit_collection() -> HabitCategory:
     )
 
 
-def test_mongo_habit_repository_instance(
-    mock_mongo_client: mongomock.MongoClient,
-) -> None:
-    mongo_habit_repository = MongoHabitRepository(mock_mongo_client)
-
-    # make sure they are defined, remove once they are implemented and tested
-    mongo_habit_repository.get_habit_category_by_name(None)
-    mongo_habit_repository.update_habit_collection(None)
-    mongo_habit_repository.get_habit_collection_by_id(None)
-
-
 def test_save_habit(
     mock_mongo_habit_repository: MongoHabitRepository,
     generic_habit: Habit,
@@ -437,3 +426,52 @@ def test_get_habit_instance_by_id_habit_not_found(
     # Attempt to fetch the habit instance by ID
     with pytest.raises(MongoHabitNotFoundError):
         mock_mongo_habit_repository.get_habit_instance_by_id(saved_habit_instance.id)
+
+
+def test_update_habit_collection(
+    mock_mongo_habit_repository: MongoHabitRepository,
+    generic_habit_collection: HabitCollection,
+    generic_habit: Habit,
+) -> None:
+    # Save the habit before saving the collection
+    saved_habit = mock_mongo_habit_repository.save_habit(generic_habit)
+    generic_habit_collection.add_habit(saved_habit)
+
+    # Save the habit collection using the repository
+    saved_habit_collection = mock_mongo_habit_repository.save_habit_collection(
+        generic_habit_collection
+    )
+
+    # Update the habit collection
+    saved_habit_collection.name = "Updated Collection"
+    updated_collection = mock_mongo_habit_repository.update_habit_collection(
+        saved_habit_collection
+    )
+
+    # Assert the collection was updated successfully
+    assert updated_collection.name == "Updated Collection"
+    assert updated_collection.id == saved_habit_collection.id
+
+
+def test_update_habit_collection_raises_error_when_not_found(
+    mock_mongo_habit_repository: MongoHabitRepository,
+    generic_habit_collection: HabitCollection,
+) -> None:
+    # Attempt to update a non-existent habit collection
+    generic_habit_collection.id = str(ObjectId())
+    with pytest.raises(MongoHabitCollectionExistsError):
+        mock_mongo_habit_repository.update_habit_collection(generic_habit_collection)
+
+
+def test_update_habit_collection_raises_value_error_when_no_id(
+    mock_mongo_habit_repository: MongoHabitRepository,
+    generic_habit_collection: HabitCollection,
+) -> None:
+    # Ensure the habit collection does not have an ID
+    generic_habit_collection.id = None
+
+    # Attempt to update the habit collection and assert a ValueError is raised
+    with pytest.raises(
+        ValueError, match="Habit collection must have an ID to be updated."
+    ):
+        mock_mongo_habit_repository.update_habit_collection(generic_habit_collection)
