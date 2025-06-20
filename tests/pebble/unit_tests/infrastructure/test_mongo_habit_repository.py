@@ -18,6 +18,7 @@ from pebble.infrastructure.repositories.mongo import MongoHabitExistsError
 from pebble.infrastructure.repositories.mongo.mongo_exceptions import (
     MongoHabitCategoryExistsError,
     MongoHabitCollectionExistsError,
+    MongoHabitNotFoundError,
 )
 
 
@@ -328,6 +329,16 @@ def test_get_habit_collection_by_id(
     saved_habit = mock_mongo_habit_repository.save_habit(generic_habit)
     generic_habit_collection.add_habit(saved_habit)
 
+    # Save habit instances for the collection
+    habit_instance = HabitInstance(
+        habit=saved_habit,
+        date=datetime.date(2023, 10, 1),
+        completed=True,
+        note="Test note",
+    )
+    mock_mongo_habit_repository.save_habit_instance(habit_instance)
+    generic_habit_collection.habits_instance.add(habit_instance)
+
     # Save the habit collection using the repository
     saved_habit_collection = mock_mongo_habit_repository.save_habit_collection(
         generic_habit_collection
@@ -348,3 +359,81 @@ def test_get_habit_collection_by_id(
         fetched_habit_collection.habits_instance
         == saved_habit_collection.habits_instance
     )
+
+
+def test_save_habit_with_existing_id_raises_error(
+    mock_mongo_habit_repository: MongoHabitRepository,
+    generic_habit: Habit,
+) -> None:
+    # Save the habit using the repository
+    saved_habit = mock_mongo_habit_repository.save_habit(generic_habit)
+
+    # Attempt to save another habit with the same ID
+    generic_habit.id = saved_habit.id
+    with pytest.raises(MongoHabitExistsError):
+        mock_mongo_habit_repository.save_habit(generic_habit)
+
+
+def test_save_habit_instance_with_existing_id_raises_error(
+    mock_mongo_habit_repository: MongoHabitRepository,
+    generic_habit: Habit,
+) -> None:
+    # Save the habit using the repository
+    saved_habit = mock_mongo_habit_repository.save_habit(generic_habit)
+
+    # Create a habit instance
+    habit_instance = HabitInstance(
+        habit=saved_habit,
+        date=datetime.date(2023, 10, 1),
+        completed=True,
+        note="Test note",
+    )
+
+    # Save the habit instance using the repository
+    saved_habit_instance = mock_mongo_habit_repository.save_habit_instance(
+        habit_instance
+    )
+
+    # Attempt to save another habit instance with the same ID
+    habit_instance.id = saved_habit_instance.id
+    with pytest.raises(MongoHabitExistsError):
+        mock_mongo_habit_repository.save_habit_instance(habit_instance)
+
+
+def test_get_habit_instance_by_id_not_found(
+    mock_mongo_habit_repository: MongoHabitRepository,
+) -> None:
+    # Attempt to fetch a habit instance with a non-existent ID
+    non_existent_id = str(ObjectId())
+    fetched_habit_instance = mock_mongo_habit_repository.get_habit_instance_by_id(
+        non_existent_id
+    )
+
+    # Assert that the result is None
+    assert fetched_habit_instance is None
+
+
+def test_get_habit_instance_by_id_habit_not_found(
+    mock_mongo_habit_repository: MongoHabitRepository,
+    generic_habit: Habit,
+) -> None:
+    # Save the habit and create a habit instance
+    saved_habit = mock_mongo_habit_repository.save_habit(generic_habit)
+    habit_instance = HabitInstance(
+        habit=saved_habit,
+        date=datetime.date(2023, 10, 1),
+        completed=True,
+        note="Test note",
+    )
+    saved_habit_instance = mock_mongo_habit_repository.save_habit_instance(
+        habit_instance
+    )
+
+    # Remove the habit from the database
+    mock_mongo_habit_repository.habits_collection.delete_one(
+        {"_id": ObjectId(saved_habit.id)}
+    )
+
+    # Attempt to fetch the habit instance by ID
+    with pytest.raises(MongoHabitNotFoundError):
+        mock_mongo_habit_repository.get_habit_instance_by_id(saved_habit_instance.id)

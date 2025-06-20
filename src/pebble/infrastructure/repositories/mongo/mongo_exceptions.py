@@ -10,6 +10,12 @@ class MongoHabitExistsError(MongoError):
     """
 
 
+class MongoHabitNotFoundError(MongoError):
+    """
+    Exception raised when a habit is not found in the repository.
+    """
+
+
 class MongoHabitCategoryExistsError(MongoError):
     """
     Exception raised when a habit category already exists in the repository.

@@ -18,6 +18,7 @@ from .mongo_exceptions import (
     MongoHabitCategoryExistsError,
     MongoHabitCollectionExistsError,
     MongoHabitExistsError,
+    MongoHabitNotFoundError,
 )
 
 
@@ -265,23 +266,29 @@ class MongoHabitRepository(HabitRepository):
         for habit_data in habits_data:
             habits.add(self._habit_from_dict(habit_data))
 
-        habit_instances_data = self.habits_collection.find(
-            {
-                "_id": {
-                    "$in": [
-                        ObjectId(habit_id)
-                        for habit_id in habit_collection_data[
-                            HabitCollectionsKVSerializer.DataKeys.HABITS_INSTANCES
-                        ]
-                    ]
+        # Query the habit instances collection for habit instances
+        # where the habit IDs are present
+        habit_instances_data = list(
+            self.habit_instances_collection.find(
+                {
+                    HabitInstanceKVSerializer.DataKeys.HABIT_ID: {
+                        "$in": [habit.id for habit in habits]
+                    }
                 }
-            }
+            )
         )
 
-        # TODO -> Add HabitInstance from dict once the logic is implemented
+        habit_instances = set(
+            (
+                self.get_habit_instance_by_id(
+                    habit_instance[HabitInstanceKVSerializer.DataKeys.ID]
+                )
+                for habit_instance in habit_instances_data
+            )
+        )
 
         return HabitCollectionsKVSerializer.from_dict(
-            habit_collection_data, habits, habit_instances_data
+            habit_collection_data, habits, habit_instances
         )
 
     def save_habit_instance(self, habit_instance: HabitInstance) -> HabitInstance:
@@ -339,7 +346,7 @@ class MongoHabitRepository(HabitRepository):
         )
 
         if not habit:
-            raise MongoHabitExistsError(
+            raise MongoHabitNotFoundError(
                 f"Error when trying to retrieve the habit instance "
                 f"{habit_instance_data[HabitInstanceKVSerializer.DataKeys.ID]}. "
                 f"Habit with ID "
