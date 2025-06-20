@@ -17,6 +17,7 @@ from pebble.domain.value_objects import ID, Color
 from .mongo_exceptions import (
     MongoHabitCategoryExistsError,
     MongoHabitCollectionExistsError,
+    MongoHabitCollectionNotFoundError,
     MongoHabitExistsError,
     MongoHabitNotFoundError,
 )

@@ -1,4 +1,11 @@
-from .mongo_exceptions import MongoError, MongoHabitExistsError, MongoHabitNotFoundError
+from .mongo_exceptions import (
+    MongoError,
+    MongoHabitCategoryExistsError,
+    MongoHabitCollectionExistsError,
+    MongoHabitCollectionNotFoundError,
+    MongoHabitExistsError,
+    MongoHabitNotFoundError,
+)
 from .mongo_habit_repository import MongoHabitRepository
 
 __all__ = [
@@ -6,4 +13,8 @@ __all__ = [
     "MongoHabitExistsError",
     "MongoHabitRepository",
     "MongoHabitNotFoundError",
+    "MongoHabitCategoryExistsError",
+    "MongoHabitCollectionExistsError",
+    "MongoHabitCollectionNotFoundError",
+    "MongoHabitRepository",
 ]

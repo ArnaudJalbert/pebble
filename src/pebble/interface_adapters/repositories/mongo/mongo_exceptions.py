@@ -26,3 +26,9 @@ class MongoHabitCollectionExistsError(MongoError):
     """
     Exception raised when a habit collection already exists in the repository.
     """
+
+
+class MongoHabitCollectionNotFoundError(MongoError):
+    """
+    Exception raised when a habit collection is not found in the repository.
+    """
