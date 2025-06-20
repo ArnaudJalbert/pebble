@@ -18,6 +18,7 @@ from pebble.interface_adapters.repositories.mongo import MongoHabitExistsError
 from pebble.interface_adapters.repositories.mongo.mongo_exceptions import (
     MongoHabitCategoryExistsError,
     MongoHabitCollectionExistsError,
+    MongoHabitCollectionNotFoundError,
     MongoHabitNotFoundError,
 )
 
@@ -459,7 +460,7 @@ def test_update_habit_collection_raises_error_when_not_found(
 ) -> None:
     # Attempt to update a non-existent habit collection
     generic_habit_collection.id = str(ObjectId())
-    with pytest.raises(MongoHabitCollectionExistsError):
+    with pytest.raises(MongoHabitCollectionNotFoundError):
         mock_mongo_habit_repository.update_habit_collection(generic_habit_collection)
 
 
