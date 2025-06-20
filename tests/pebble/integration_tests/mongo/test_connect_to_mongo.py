@@ -2,7 +2,10 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from pebble.infrastructure.factories import MongoConnectionError, MongoConnectionFactory
+from pebble.interface_adapters.factories import (
+    MongoConnectionError,
+    MongoConnectionFactory,
+)
 
 
 def test_mongo_connection() -> None:
@@ -20,7 +23,7 @@ def test_mongo_connection() -> None:
 
 
 @patch(
-    "pebble.infrastructure.factories.mongo_connection_factory.MongoConnectionFactory.CONNECTION_URI"
+    "pebble.interface_adapters.factories.mongo_connection_factory.MongoConnectionFactory.CONNECTION_URI"
 )
 def test_mongo_connection_error(uri_patch: MagicMock) -> None:
     """

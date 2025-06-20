@@ -130,3 +130,12 @@ class MockRepository(HabitRepository):
         )
 
         return habit_collection
+
+    def get_habit_instance_by_id(self, habit_instance_id: ID) -> HabitInstance:
+        habit_instance_to_return = None
+        for habit_instance in self.habit_instances:
+            if habit_instance.id == habit_instance_id:
+                habit_instance_to_return = habit_instance
+                break
+
+        return habit_instance_to_return

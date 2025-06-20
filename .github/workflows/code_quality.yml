@@ -67,7 +67,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
-      - run: uv run pytest ./tests/pebble/unit_tests -v --durations=0 --cov --cov-report=xml
+      - run: uv run pytest ./tests/pebble/unit_tests -v --durations=0 --cov=src --cov-report=xml
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
@@ -81,7 +81,7 @@ jobs:
       - name: Run integration tests
         env: # Or as an environment variable
           MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
-        run: uv run pytest ./tests/pebble/integration_tests -v --durations=0 --cov --cov-report=xml
+        run: uv run pytest ./tests/pebble/integration_tests -v --durations=0 --cov=src --cov-report=xml
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v4
         with:

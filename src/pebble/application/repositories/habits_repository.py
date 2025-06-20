@@ -27,7 +27,7 @@ class HabitRepository(ABC):
         """
 
     @abstractmethod
-    def get_habit_by_id(self, habit_id: ID) -> Habit:
+    def get_habit_by_id(self, habit_id: ID) -> Union[Habit, None]:
         """
         Gets a habit by identifier from the repository.
 
@@ -125,7 +125,9 @@ class HabitRepository(ABC):
         """
 
     @abstractmethod
-    def get_habit_collection_by_id(self, habit_collection_id: ID) -> HabitCollection:
+    def get_habit_collection_by_id(
+        self, habit_collection_id: ID
+    ) -> Union[HabitCollection, None]:
         """
         Gets a habit collection by identifier from the repository.
 
@@ -153,4 +155,21 @@ class HabitRepository(ABC):
 
         Raises:
             HabitCreationError: If the habit instance could not be created.
+        """
+
+    @abstractmethod
+    def get_habit_instance_by_id(
+        self, habit_instance_id: ID
+    ) -> Union[HabitInstance, None]:
+        """
+        Gets a habit instance by identifier from the repository.
+
+        Args:
+            habit_instance_id: The identifier of the habit instance to get.
+
+        Returns:
+            The habit instance with the provided identifier.
+
+        Raises:
+            RepositoryError: If the habit instance could not be found.
         """

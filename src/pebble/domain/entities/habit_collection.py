@@ -26,3 +26,15 @@ class HabitCollection:
     habits: set[Habit] = field(default_factory=lambda: set())
     habits_instance: set[HabitInstance] = field(default_factory=lambda: set())
     id: Optional[ID] = None
+
+    def add_habit(self, habit: Habit) -> None:
+        """
+        Adds a habit to the collection.
+
+        Args:
+            habit: The habit to be added to the collection.
+        """
+        if habit in self.habits:
+            raise ValueError(f"Habit {habit.name} already exists in the collection")
+
+        self.habits.add(habit)
