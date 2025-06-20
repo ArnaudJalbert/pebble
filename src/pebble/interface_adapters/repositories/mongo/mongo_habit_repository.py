@@ -284,7 +284,7 @@ class MongoHabitRepository(HabitRepository):
         if not habit_collection_data:
             return None
 
-        # Recover the habits and habit instances from the habit collection data
+        # Recover the habits from the habit collection data
         habits_data = self.habits_collection.find(
             {
                 "_id": {
@@ -303,8 +303,7 @@ class MongoHabitRepository(HabitRepository):
         for habit_data in habits_data:
             habits.add(self._habit_from_dict(habit_data))
 
-        # Query the habit instances collection for habit instances
-        # where the habit IDs are present
+        # Recover the habit instances from the habits data
         habit_instances_data = list(
             self.habit_instances_collection.find(
                 {
@@ -315,6 +314,7 @@ class MongoHabitRepository(HabitRepository):
             )
         )
 
+        # Convert the habit instances data to HabitInstance objects
         habit_instances = set(
             (
                 self.get_habit_instance_by_id(
