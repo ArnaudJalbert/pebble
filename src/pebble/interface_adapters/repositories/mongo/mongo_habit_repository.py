@@ -318,7 +318,7 @@ class MongoHabitRepository(HabitRepository):
         habit_instances = set(
             (
                 self.get_habit_instance_by_id(
-                    habit_instance[HabitInstanceKVSerializer.DataKeys.ID]
+                    str(habit_instance[HabitInstanceKVSerializer.DataKeys.ID])
                 )
                 for habit_instance in habit_instances_data
             )
