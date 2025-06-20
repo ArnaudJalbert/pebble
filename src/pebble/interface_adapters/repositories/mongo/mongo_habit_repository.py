@@ -243,7 +243,7 @@ class MongoHabitRepository(HabitRepository):
         # Check if the habit collection exists in the database
         existing_collection = self.get_habit_collection_by_id(habit_collection.id)
         if not existing_collection:
-            raise MongoHabitCollectionExistsError(
+            raise MongoHabitCollectionNotFoundError(
                 f"Habit collection with ID {habit_collection.id} does not exist."
             )
 
