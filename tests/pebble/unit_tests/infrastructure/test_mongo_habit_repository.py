@@ -13,9 +13,9 @@ from pebble.domain.entities import (
     HabitInstance,
 )
 from pebble.domain.value_objects import Color
-from pebble.infrastructure.repositories import MongoHabitRepository
-from pebble.infrastructure.repositories.mongo import MongoHabitExistsError
-from pebble.infrastructure.repositories.mongo.mongo_exceptions import (
+from pebble.interface_adapters.repositories import MongoHabitRepository
+from pebble.interface_adapters.repositories.mongo import MongoHabitExistsError
+from pebble.interface_adapters.repositories.mongo.mongo_exceptions import (
     MongoHabitCategoryExistsError,
     MongoHabitCollectionExistsError,
     MongoHabitNotFoundError,
