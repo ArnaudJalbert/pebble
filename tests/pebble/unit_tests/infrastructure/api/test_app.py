@@ -4,6 +4,7 @@ from pebble.infrastructure.api.app import app
 
 client = TestClient(app)
 
+
 def test_health_check() -> None:
     # Act
     response = client.get("/health")
@@ -11,6 +12,7 @@ def test_health_check() -> None:
     # Assert
     assert response.status_code == 200
     assert response.json() == {"status": "healthy"}
+
 
 def test_get_habit_by_id() -> None:
     # Arrange
@@ -29,6 +31,7 @@ def test_get_habit_by_id() -> None:
         "created_at": response.json()["created_at"],  # Validate dynamic timestamp
     }
 
+
 def test_create_habit() -> None:
     # Arrange
     request_data = {
@@ -36,7 +39,7 @@ def test_create_habit() -> None:
         "recurrence": "daily",
         "description": "A test habit",
         "category_id": "123",
-        "color_hex": "#FFFFFF"
+        "color_hex": "#FFFFFF",
     }
 
     # Act
@@ -46,5 +49,5 @@ def test_create_habit() -> None:
     assert response.status_code == 201
     assert response.json() == {
         "message": "Habit created successfully",
-        "habit": "Test Habit"
+        "habit": "Test Habit",
     }
