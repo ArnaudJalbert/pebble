@@ -6,6 +6,7 @@
   - Add `FastAPI` dependency.
   - Add `TOML` dependency.
   - Add `uvicorn` dependency for running the FastAPI app.
+  - Add `httpx` dependency for the FastAPI client.
 
 ## 0.7.0 - TAS-429 - 11-05-2025:
   - Concrete implementation of the MongoHabitRepository.

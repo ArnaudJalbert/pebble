@@ -45,6 +45,6 @@ def create_habit(request: CreateHabitRequest) -> JSONResponse:
     )
 
     return JSONResponse(
-        content={"message": "Habit created successfully", "habit":request.name},
+        content={"message": "Habit created successfully", "habit": request.name},
         status_code=status.HTTP_201_CREATED,
     )
