@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from ..value_objects.types import ID, Email, Username
 
 
-@dataclass(slots=True)
+@dataclass(frozen=True, slots=True)
 class User:
     """
     Represents a user in the system.
