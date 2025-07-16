@@ -1,6 +1,6 @@
 [project]
 name = "pebble"
-version = "0.8.0"
+version = "0.9.0"
 description = "Minimalist habit tracker built with Clean Architecture."
 readme = "README.md"
 requires-python = ">=3.10"
