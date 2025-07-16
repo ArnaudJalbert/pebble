@@ -1,5 +1,7 @@
 # Changelog
 
+## 0.9.0 - TAS-537 - 15-07-2025
+  - Add `User` entity to the Domain.
 
 ## 0.8.0 - TAS-532 - 20-06-2025
   - Add base API setup using FastAPI.

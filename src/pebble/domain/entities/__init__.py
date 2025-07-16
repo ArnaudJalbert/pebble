@@ -12,6 +12,7 @@ from .recurrences import (
     Weekly,
     Yearly,
 )
+from .user import User
 
 __all__ = [
     "Habit",
@@ -26,4 +27,5 @@ __all__ = [
     "BiMonthly",
     "Yearly",
     "Quarterly",
+    "User",
 ]
